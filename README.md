@@ -9,6 +9,8 @@ However, as you might expect, not every software allows telemetry data upload to
 
 This is where this extension of dxlAPRS comes in to play. It takes the telemetry data provided by dxlAPRS and uploads it to the [SondeHub Tracker](https://sondehub.org/) database.
 ## Theory of Operation
-At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other using UDP ports. The following diagram shows the structure of a dxlAPRS-based radiosonde receiver station.
+At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other using UDP ports. The following diagram shows the structure of an exemplary dxlAPRS-based radiosonde receiver station.
+
+On the hardware side, this fairly simple receiver station consists of a Raspberry Pi and an RTL-SDR Stick. rtl_tcp, which is not part of dxlAPRS but part of [rtl-sdr](https://github.com/osmocom/rtl-sdr), provides an SDR Server. sdrtst taps into this SDR server and creates receivers which send the received signals to an audio pipe. sondeudp then decodes those signals and sends to raw data to sondemod using UDP. sondemod packs the data into APRS packets and sends them to udpbox using UDP as well. udpbox multiplies the packets and sends them to various instances of udpgate4. udpgate4 is an APRS gateway that will forward the packets to APRS databases like radio
 ## Setup
 ## Known limitations
