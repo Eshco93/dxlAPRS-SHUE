@@ -153,7 +153,7 @@ Regarding the supported radiosonde types, the [dxlAPRS SondeHub Uploader Extensi
 - MRZ
 - MEISEI
 ### No temperature from DFM radiosondes
-While other software solutions for radiosonde receiver stations (like [radiosonde_auto_rx](https://github.com/projecthorus/radiosonde_auto_rx) and [rdz_ttgo_sonde](https://github.com/dl9rdz/rdz_ttgo_sonde)) seem to at least support temperature reading from DFM radiosondes, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) doesn't do that at the moment. Therefore telemetry data upload for DFM radiosondes is limited to the position data only.
+While other software solutions for radiosonde receiver stations (like [radiosonde_auto_rx](https://github.com/projecthorus/radiosonde_auto_rx) and [rdz_ttgo_sonde](https://github.com/dl9rdz/rdz_ttgo_sonde)) seem to at least support temperature reading from DFM radiosondes, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) doesn't do that at the moment. Therefore telemetry data upload for DFM radiosondes is currently limited to the position data only.
 ### No XDATA support
 ### No meaningful RSSI values
 ### Hardcoded leap seconds
