@@ -137,4 +137,10 @@ xfce4-terminal --minimize --title dxlAPRS_SHUE -e 'bash -c "python dxlAPRS_SHUE.
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
 If you added the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your startup script as explained in 7., you'll also want to add it to your stop script in order to stop it together with all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). The stop script goes by the name `sondestop.sh` and can be found inside your [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) folder.
 
+In order to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script, just add `dxlAPRS_SHUE` to the end of the line in the stop script. This is what the stop script will look like after adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
+```
+#!/bin/bash
+# Beenden aller dxlAPRS Tools
+killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 SondeHubUploader
+```
 ## Known limitations
