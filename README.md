@@ -93,8 +93,8 @@ Argument|Description|Default|Range
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
 -p|Port for the UDP socket|18001|1024 - 65353
 -q|Size of the queue for storing the received APRS packages before processing|20|1 - 100
--t|Test|127.0.0.1|-
--s|Test|127.0.0.1|-
+-t|Runtime of the program in seconds (0 for infinite runtime)|0|0 - inf.
+-s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)|1|0 - 1
 -w|Test|127.0.0.1|-
 -d|Test|127.0.0.1|-
 -f|Test|127.0.0.1|-
