@@ -96,7 +96,7 @@ Argument|Description|Default|Range
 -t|Runtime of the program in seconds (0 for infinite runtime)<br />Usually the program runs indefinitely|0|0 - inf.
 -s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)<br />All packages in one file with one line for each package|1|0 - 1
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)<br />One CSV file for each radiosonde, named by it's serial|1|0 - 1
--d|Path for the files to be saved by the program|Current directory|-
+-d|Path for the TXT/CSV files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|150|1 - 300
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)<br />Max. length: 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _|N0CALL|-
 -l|User position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
