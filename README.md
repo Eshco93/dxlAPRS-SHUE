@@ -30,4 +30,7 @@ The APRS packages received from udpbox via UDP are stored in a queue. The stored
 This section will guide you through the setup of the dxlAPRS SondeHub Uploader Extension.
 ### 1. Prerequisites
 This guide assumes that you already have your dxlAPRS radiosonde receiver station up and running. If that's not yet the case, I recommend following this [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
+### 2. Installing Python
+The dxlAPRS SondeHub Uploader Extension is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
+### 3. Installing the necessary packages
 ## Known limitations
