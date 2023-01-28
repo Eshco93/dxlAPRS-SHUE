@@ -91,6 +91,21 @@ When running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco9
 Argument|Description|Default|Range
 -|-|-|-
 -a|Test|127.0.0.1|-
+-p|Test|127.0.0.1|-
+-q|Test|127.0.0.1|-
+-t|Test|127.0.0.1|-
+-s|Test|127.0.0.1|-
+-w|Test|127.0.0.1|-
+-d|Test|127.0.0.1|-
+-f|Test|127.0.0.1|-
+-c|Test|127.0.0.1|-
+-l|Test|127.0.0.1|-
+-i|Test|127.0.0.1|-
+-u|Test|127.0.0.1|-
+-g|Test|127.0.0.1|-
+-r|Test|127.0.0.1|-
+-o|Test|127.0.0.1|-
+-e|Test|127.0.0.1|-
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
 ## Known limitations
