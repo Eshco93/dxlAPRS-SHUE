@@ -27,4 +27,5 @@ The internal structure of the dxlAPRS SondeHub Uploader is fairly simple, which 
 
 The APRS packages received from udpbox via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the SondeHub Tracker database. The upload takes place at fixed time intervals. When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station data. Receiving, processing, telemetry uploading and station uploading are all performed by concurrently running threads.
 ## Setup
+### Prerequisites
 ## Known limitations
