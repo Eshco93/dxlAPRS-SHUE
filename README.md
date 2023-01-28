@@ -91,7 +91,7 @@ When running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco9
 Argument|Description|Default|Range
 -|-|-|-
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
--p|Test|127.0.0.1|-
+-p|Port for the UDP socket|18001|1024 - 65353
 -q|Test|127.0.0.1|-
 -t|Test|127.0.0.1|-
 -s|Test|127.0.0.1|-
