@@ -36,17 +36,18 @@ The dxlAPRS SondeHub Uploader Extension is based on [Python](https://www.python.
 Some of the packages that are used by the dxlAPRS SondeHub Uploader Extension are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the [SondeHub Tracker](https://sondehub.org/) database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
 
 The [requests package](https://pypi.org/project/requests/) can be installed from [PyPI](https://pypi.org/) using [pip](https://pypi.org/project/pip/) with the following command.
-
 ```
 $ python -m pip install requests
 ```
-
 The [python-dateutil package](https://pypi.org/project/python-dateutil/) can also be installed from [PyPI](https://pypi.org/) using [pip](https://pypi.org/project/pip/) with the following command.
-
 ```
 $ python -m pip install python-dateutil
 ```
 ### 4. Cloning the dxlAPRS_SHUE Repository
 Cloning the dxlAPRS_SHUE Repository requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a Raspberry Pi with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself.
+
 For cloning the dxlAPRS_SHUE Repository, use the following command.
+```
+$ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
+```
 ## Known limitations
