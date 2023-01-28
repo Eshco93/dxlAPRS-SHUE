@@ -92,12 +92,12 @@ Argument|Description|Default|Range
 -|-|-|-
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
 -p|Port for the UDP socket|18001|1024 - 65353
--q|Size of the queue for storing the received APRS packages before processing|20|1 - 100
+-q|Size of the queue for storeing the received APRS packages before processing|50|1 - 100
 -t|Runtime of the program in seconds (0 for infinite runtime)|0|0 - inf.
 -s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)|1|0 - 1
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)|1|0 - 1
 -d|Path for the files to be saved by the program|Current directory|-
--f|Test|127.0.0.1|-
+-f|Size of the queue for storeing the processed telemetry data before uploading|50|1 - 100
 -c|Test|127.0.0.1|-
 -l|Test|127.0.0.1|-
 -i|Test|127.0.0.1|-
