@@ -129,7 +129,7 @@ Add the following line to the bottom of your startup script in order to launch t
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'bash -c "<command>"' &
 ```
-This is what the entire line for the startup script, including the command described in 6., would look like.
+This is what the entire line for the startup script, including the command described in [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension), would look like.
 ```
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'bash -c "python dxlAPRS-SHUE.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS-SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5"' &
