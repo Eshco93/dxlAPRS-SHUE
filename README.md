@@ -99,7 +99,7 @@ Argument|Description|Default|Range
 -d|Path for the TXT/CSV files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|150|1 - 300
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)<br />Max. length: 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _|N0CALL|-
--l|Position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
+-l|Position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: lat, lon, alt<br />With lat and lon in decimal degrees and alt in meters|0.0, 0.0, 0.0|-
 -i|Antenna for showing in your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
 -u|Your contact E-Mail address<br />Only visible for the admins of [SondeHub Tracker](https://sondehub.org/)<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station|none@none.com|-
 -g|Update rate for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map in hours|6|1 - 24
@@ -109,7 +109,7 @@ Argument|Description|Default|Range
 
 Here is an example of what your command for starting the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
 ```
-python SondeHubUploader.py -a 127.0.0.1 -p 18001 -q 60 -t 0 -s 1 -w 1 -d /home/dxlaprs/dxlAPRS/SondeHubUploader/sondedata -f 60 -c SIMON2-14 -l 53.23764,7.74426,7 -i 5/8-Wave-J-Pole -u simon.gsa@web.de -g 6 -r 5 -o 20 -e 5"' &
+python SondeHubUploader.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS_SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5
 ```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
