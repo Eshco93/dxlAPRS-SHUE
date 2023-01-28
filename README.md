@@ -98,8 +98,8 @@ Argument|Description|Default|Range
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)|1|0 - 1
 -d|Path for the files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading|50|1 - 100
--c|Test|127.0.0.1|-
--l|Test|127.0.0.1|-
+-c|User callsign for the [SondeHub Tracker](https://sondehub.org/)|N0CALL|-
+-l|User position for showing the station on the [SondeHub Tracker](https://sondehub.org/) Map|[0.0, 0.0, 0.0]|-
 -i|Test|127.0.0.1|-
 -u|Test|127.0.0.1|-
 -g|Test|127.0.0.1|-
