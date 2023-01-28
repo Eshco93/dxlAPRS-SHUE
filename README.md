@@ -107,9 +107,15 @@ Argument|Description|Default|Range
 -o|Upload timeout for telemetry data and radiosonde receiver station information in seconds|20|1 - 60
 -e|Max. number of upload retries for telemetry data and radiosonde receiver station information|5|0 - 60
 
-Here is an example of what your command for starting the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
+Here is an example of what your command for launching the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
 ```
 python dxlAPRS_SHUE.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS_SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5
+```
+Though, you don't have to configure every single parameter of the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). If you want to leave certain parameters at their default values, you don't have to specify them explicitly. The default value is loaded for each parameter that is not explicitly specified.
+
+The default values are also loaded for incorrectly specified parameters. You will be informed about this by a warning message that is shown right after launching the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). A warning could look like this.
+```
+Warning: You provided an invalid address. Therefore the default was loaded (127.0.0.1)
 ```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
