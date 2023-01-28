@@ -99,7 +99,7 @@ Argument|Description|Default|Range
 -d|Path for the files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading|50|1 - 100
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)|N0CALL|-
--l|User position for showing the station on the [SondeHub Tracker](https://sondehub.org/) Map|[0.0, 0.0, 0.0]|-
+-l|User position for showing the station on the [SondeHub Tracker](https://sondehub.org/) Map Format: [lat, lon, alt]|[0.0, 0.0, 0.0]|-
 -i|Test|127.0.0.1|-
 -u|Test|127.0.0.1|-
 -g|Test|127.0.0.1|-
