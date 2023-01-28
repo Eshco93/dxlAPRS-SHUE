@@ -118,6 +118,9 @@ The default values are also loaded for incorrectly specified parameters. You wil
 Warning: You provided an invalid address. Therefore the default was loaded (127.0.0.1)
 ```
 If the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is launched with the command line argument `-h`, a help message will be printed that also explains all the available command line arguments.
+```
+python dxlAPRS_SHUE.py -h
+```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
 ## Known limitations
