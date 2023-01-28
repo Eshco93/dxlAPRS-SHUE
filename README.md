@@ -52,7 +52,7 @@ $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). Put it wherever you like.
 ### 4. Changing parameters for [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox)
-As mentioned before
+As mentioned before, the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packages that are forwarded by [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). Hence [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) needs to be configured to forward the APRS packages not only to multiple instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4), but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 ### 5. Modifying [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt)
 ### 6. Running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE)
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
