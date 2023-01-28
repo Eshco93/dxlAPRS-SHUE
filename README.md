@@ -99,8 +99,8 @@ Argument|Description|Default|Range
 -d|Path for the files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|50|1 - 100
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)<br />Max. length: 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _|N0CALL|-
--l|User position for showing the station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
--i|Test|127.0.0.1|-
+-l|User position for showing your station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
+-i|User antenna for your station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
 -u|Test|127.0.0.1|-
 -g|Test|127.0.0.1|-
 -r|Test|127.0.0.1|-
