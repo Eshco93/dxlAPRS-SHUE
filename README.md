@@ -33,5 +33,5 @@ This guide assumes that you already have your dxlAPRS radiosonde receiver statio
 ### 2. Installing Python
 The dxlAPRS SondeHub Uploader Extension is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
 ### 3. Installing the necessary Python packages
-Some of the packages that are used by the dxlAPRS SondeHub Uploader Extension are not part of the [Python Standard Library](https://docs.python.org/3/library/).
+Some of the packages that are used by the dxlAPRS SondeHub Uploader Extension are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the SondeHub Tracker database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
 ## Known limitations
