@@ -29,4 +29,5 @@ The APRS packages received from udpbox via UDP are stored in a queue. The stored
 ## Setup
 This section will guide you through the setup of the dxlAPRS SondeHub Uploader Extension.
 ### 1. Prerequisites
+This guide assumes that you already have your dxlAPRS radiosonde receiver station up and running. If that's not yet the case, I recommend following this [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
 ## Known limitations
