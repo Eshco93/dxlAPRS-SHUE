@@ -99,8 +99,8 @@ Argument|Description|Default|Range
 -d|Path for the TXT/CSV files to be saved by the program|Current directory|-
 -f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|150|1 - 300
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)<br />Max. length: 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _|N0CALL|-
--l|User position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
--i|User antenna for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
+-l|Position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
+-i|Antenna for showing in your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
 -u|Your contact E-Mail address<br />Only visible for the admins of [SondeHub Tracker](https://sondehub.org/)<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station|none@none.com|-
 -g|Update rate for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map in hours|6|1 - 24
 -r|Telemetry data upload rate in seconds|30|1 - 600
