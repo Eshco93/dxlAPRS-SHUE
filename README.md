@@ -58,7 +58,7 @@ This is done by adding another command line argument to [udpbox](http://dxlwiki.
 ```
 -l <ip>:<port>
 ```
-Since you are most likely running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) on the same system as [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox), you usually just want to use the localhost. Obviously you could also run both tools on different systems and just use the address of the system that's running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) instead.
+Since you are most likely running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) on the same system as [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox), you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) instead.
 ### 5. Modifying [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt)
 ### 6. Running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE)
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
