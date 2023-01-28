@@ -122,7 +122,7 @@ If the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-
 python dxlAPRS-SHUE.py -h
 ```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your startup script
-You might want to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to the start script already mentioned in section [4.](https://github.com/Eshco93/dxlAPRS-SHUE#4-changing-parameters-for-udpbox) in order to launch it together with all the other [dxlAPRS tools](https://github.com/oe5hpm/dxlAPRS). Add the following line to the bottom of your startup script in order to launch the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) right after lanuching all the other [dxlAPRS tools](https://github.com/oe5hpm/dxlAPRS) (note that `<command>` is just a placeholder for the command as described in 6.)
+You might want to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to the startup script already mentioned in section [4.](https://github.com/Eshco93/dxlAPRS-SHUE#4-changing-parameters-for-udpbox) in order to launch it together with all the other [dxlAPRS tools](https://github.com/oe5hpm/dxlAPRS). Add the following line to the bottom of your startup script in order to launch the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) right after lanuching all the other [dxlAPRS tools](https://github.com/oe5hpm/dxlAPRS) (note that `<command>` is just a placeholder for the command as described in 6.)
 ```
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'bash -c "<command>"' &
