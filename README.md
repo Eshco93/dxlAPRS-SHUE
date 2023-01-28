@@ -19,5 +19,8 @@ The dxlAPRS SondeHub Uploader Extension uses the APRS packets that are created b
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215265940-06f17886-d776-405c-9d9e-fd28c45c146d.png" width=70% height=70%></p>
 
+The internal structure of the dxlAPRS SondeHub Uploader is fairly simple, which can be seen in the next diagram.
+
+
 ## Setup
 ## Known limitations
