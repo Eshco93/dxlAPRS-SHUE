@@ -9,7 +9,7 @@ However, as you might expect, not every software allows telemetry data upload to
 
 This is where this extension of dxlAPRS comes in to play. It takes the telemetry data provided by dxlAPRS and uploads it to the [SondeHub Tracker](https://sondehub.org/) database.
 ## Theory of Operation
-At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other using UDP ports. The following diagram shows the structure of an exemplary dxlAPRS-based radiosonde receiver station.
+At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other mostly using UDP ports. The following diagram shows the structure of an exemplary dxlAPRS-based radiosonde receiver station.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215233027-d883527e-3c72-4d19-a35f-24ec19f22adc.png" width=70% height=70%></p>
 
