@@ -5,7 +5,7 @@ When operating an amateur radiosonde receiver station, there are a bunch of diff
 
 Telemetry data gathered by amateur radiosonde receiver stations is often uploaded to online databases, on which live radiosonde tracking websites are built. A few examples are [radiosondy.info](https://radiosondy.info/) by Michał Lewiński (SQ6KXY), [SondeHub Tracker](https://sondehub.org/) by [Project Horus](http://www.projecthorus.org/) and [wettersonde.net](https://www.wettersonde.net/) by Jean-Michael Grobel (DO2JMG).
 
-However, as you might expect, not every software allows telemetry data upload to every database. For example, dxlAPRS (as the name suggests) is APRS-based and therefore only allows uploading to APRS databases, like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). [SondeHub Tracker](https://sondehub.org/), which is not based on APRS, is therefore not supported.
+However, as you might expect, not every software allows telemetry data upload to every database. For example, dxlAPRS (as the name suggests) is APRS-based and therefore only allows uploading to APRS databases, like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). [SondeHub Tracker](https://sondehub.org/), which is not based on APRS, is therefore not supported by dxlAPRS.
 
 This is where this extension of dxlAPRS comes in to play. It takes the telemetry data provided by dxlAPRS and uploads it to the [SondeHub Tracker](https://sondehub.org/) database.
 ## Theory of Operation
