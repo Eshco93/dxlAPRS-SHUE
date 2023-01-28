@@ -107,9 +107,9 @@ Argument|Description|Default|Range
 -o|Upload timeout for telemetry data and radiosonde receiver station information in seconds|20|1 - 60
 -e|Max. number of upload retries for telemetry data and radiosonde receiver station information|5|0 - 60
 
-Here is an example of what your command for starting the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) might look like.
+Here is an example of what your command for starting the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
 ```
-test
+python SondeHubUploader.py -a 127.0.0.1 -p 18001 -q 60 -t 0 -s 1 -w 1 -d /home/dxlaprs/dxlAPRS/SondeHubUploader/sondedata -f 60 -c SIMON2-14 -l 53.23764,7.74426,7 -i 5/8-Wave-J-Pole -u simon.gsa@web.de -g 6 -r 5 -o 20 -e 5"' &
 ```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
