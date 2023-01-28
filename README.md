@@ -143,6 +143,15 @@ killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 dxlAPRS-SHUE
 ```
 ## Known limitations
 ### Supported radiosonde types
+Regarding the supported radiosonde types, the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is obviously limited to all the radiosonde types that are supported by both, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) and [SondeHub Tracker](https://sondehub.org/). At the moment this includes the follwing radiosonde types.
+- RS41
+- RS92 (Usually no longer used)
+- IMET
+- DFM
+- M10
+- M20
+- MRZ
+- MEISEI
 ### No temperature from DFM radiosondes
 ### No XDATA support
 ### No meaningful RSSI values
