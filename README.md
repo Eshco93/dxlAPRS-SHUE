@@ -17,6 +17,7 @@ On the hardware side, this fairly simple receiver station consists of a Raspberr
 
 The dxlAPRS SondeHub Uploader Extension uses the APRS packets that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox, the packets can not only be forwarded to multiple instances of udpgate4, but also to the dxlAPRS SondeHub Uploader Extension. This results in the structure shown in the diagram below.
 
+<p align="center"><img src="https://user-images.githubusercontent.com/34800304/215265940-06f17886-d776-405c-9d9e-fd28c45c146d.png" width=70% height=70%></p>
 
 ## Setup
 ## Known limitations
