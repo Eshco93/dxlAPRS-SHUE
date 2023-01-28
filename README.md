@@ -90,7 +90,7 @@ You can also add more parameters if you like. The [dxlAPRS SondeHub Uploader Ext
 When running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE), it must be configured properly. The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 Argument|Description|Default|Range
 -|-|-|-
--a|Test|127.0.0.1|-
+-a|Address for the UDP socket (Usually 127.0.0.1)|127.0.0.1|-
 -p|Test|127.0.0.1|-
 -q|Test|127.0.0.1|-
 -t|Test|127.0.0.1|-
