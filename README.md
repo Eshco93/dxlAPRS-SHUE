@@ -135,4 +135,5 @@ This is what the entire line for the startup script, including the command descr
 xfce4-terminal --minimize --title dxlAPRS_SHUE -e 'bash -c "python dxlAPRS_SHUE.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS_SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5"' &
 ```
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
+If you added the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your startup script as explained in 7., you'll also want to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script.
 ## Known limitations
