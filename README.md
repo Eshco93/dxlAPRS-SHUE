@@ -103,7 +103,7 @@ Argument|Description|Default|Range
 -i|Antenna for showing in your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
 -u|Your contact E-Mail address<br />Only visible for the admins of [SondeHub Tracker](https://sondehub.org/)<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station|none@none.com|-
 -g|Update rate for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map in hours|6|1 - 24
--r|Telemetry data upload rate in seconds|30|1 - 600
+-r|Telemetry data upload rate in seconds|30|1 - 60
 -o|Upload timeout in seconds|20|1 - 60
 -e|Max. number of upload retries|5|0 - 60
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
