@@ -74,7 +74,7 @@ xfce4-terminal  --minimize --title UDPBOX -e 'bash -c "udpbox -R 127.0.0.1:9001 
 sleep 1
 ```
 ### 5. Modifying [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt)
-The [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) file can be found inside your [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) folder. The file is used by [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) and defines which parameters [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) adds to the comment section of each APRS packet. Since the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) works on the basis of these packages, the comment section should include all data that is useful for the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). This includes the following data.
+The [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) file can be found inside your [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) folder. The file is used by [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) and defines which parameters [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) adds to the comment section of each APRS package. Since the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) works on the basis of these packages, the comment section should include all data that is useful for the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). This includes the following data.
 
 - %F: sdr freq+AFC from [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst)
 - %n: frame number
@@ -92,7 +92,7 @@ Argument|Description|Default|Range
 -|-|-|-
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
 -p|Port for the UDP socket|18001|1024 - 65353
--q|Test|127.0.0.1|-
+-q|Size of the queue for storing the received APRS packages before processing|20|1 - 100
 -t|Test|127.0.0.1|-
 -s|Test|127.0.0.1|-
 -w|Test|127.0.0.1|-
