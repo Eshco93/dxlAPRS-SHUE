@@ -31,7 +31,7 @@ This section will guide you through the setup of the dxlAPRS SondeHub Uploader E
 ### 1. Prerequisites
 This guide assumes that you already have your dxlAPRS radiosonde receiver station up and running. If that's not yet the case, I recommend following this [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
 ### 2. Installing Python
-The dxlAPRS SondeHub Uploader Extension is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
+The dxlAPRS SondeHub Uploader Extension is based on [Python](https://www.python.org/). For this reason it is necessary to have a reasonably current version of [Python 3](https://www.python.org/) installed. If you are using a Raspberry Pi with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [Python 3](https://www.python.org/) installed. If you're using a different system, you may have to install [Python 3](https://www.python.org/) yourself.
 ### 3. Python dependencies
 Some of the packages that are used by the dxlAPRS SondeHub Uploader Extension are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the [SondeHub Tracker](https://sondehub.org/) database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
 
@@ -47,5 +47,6 @@ The [python-dateutil package](https://pypi.org/project/python-dateutil/) can als
 $ python -m pip install python-dateutil
 ```
 ### 4. Cloning the dxlAPRS_SHUE Repository
-Cloning the dxlAPRS_SHUE Repository requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a Raspberry Pi with Raspberry Pi OS, you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself. For cloning the dxlAPRS_SHUE Repository, use the following command.
+Cloning the dxlAPRS_SHUE Repository requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a Raspberry Pi with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself.
+For cloning the dxlAPRS_SHUE Repository, use the following command.
 ## Known limitations
