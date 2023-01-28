@@ -19,7 +19,7 @@ The following diagram shows how the [dxlAPRS SondeHub Uploader Extension](https:
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215265940-06f17886-d776-405c-9d9e-fd28c45c146d.png" width=70% height=70%></p>
 
-The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packets that are created by [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) and distributed by [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). With a small adjustment of the configuration of [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox), the packets can not only be forwarded to multiple instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4), but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
+The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packets that are created by [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) and distributed by [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). With a small adjustment of the configuration of [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)), the packets can not only be forwarded to multiple instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4), but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 
 The internal structure of the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is fairly simple, which can be seen in the next diagram.
 
