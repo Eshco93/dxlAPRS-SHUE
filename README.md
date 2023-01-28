@@ -15,9 +15,11 @@ At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent 
 
 On the hardware side, this fairly simple receiver station consists of a Raspberry Pi and an RTL-SDR stick. rtl_tcp, which is not part of dxlAPRS but part of [rtl-sdr](https://github.com/osmocom/rtl-sdr), provides an SDR server. sdrtst taps into this SDR server and creates receivers which send the received signals to an audio pipe. sondeudp then decodes those signals and sends the raw data to sondemod. sondemod packs the data into APRS packets and sends them to udpbox. udpbox multiplies the packets and sends them to various instances of udpgate4. udpgate4 is an APRS gateway that will forward the packets to APRS databases like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). If you want to know more about this, I recommend visiting the website of [Attila Kocis (DL1NUX)](https://www.dl1nux.de/). He has great tutorials on dxlAPRS.
 
-The dxlAPRS SondeHub Uploader Extension uses the APRS packets that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox, the packets can not only be forwarded to multiple instances of udpgate4, but also to the dxlAPRS SondeHub Uploader Extension. This results in the structure shown in the diagram below.
+The following diagram shows how the dxlAPRS SondeHub Uploader Extension is integrated into the dxlAPRS toolchain.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215265940-06f17886-d776-405c-9d9e-fd28c45c146d.png" width=70% height=70%></p>
+
+The dxlAPRS SondeHub Uploader Extension uses the APRS packets that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox, the packets can not only be forwarded to multiple instances of udpgate4, but also to the dxlAPRS SondeHub Uploader Extension.
 
 The internal structure of the dxlAPRS SondeHub Uploader is fairly simple, which can be seen in the next diagram.
 
