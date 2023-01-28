@@ -92,7 +92,7 @@ Argument|Description|Default|Range
 -|-|-|-
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
 -p|Port for the UDP socket|18001|1024 - 65353
--q|Size of the queue for storeing the received APRS packages before processing<br />The size needed depends on how many radiosondes you are concurrently receiving|20|1 - 100
+-q|Size of the queue for storeing the received APRS packages before processing<br />The size needed depends on how many radiosondes you are concurrently receiving and how fast you are able to process their incoming data<br />Usually the default of 20 should be good|20|1 - 100
 -t|Runtime of the program in seconds (0 for infinite runtime)|0|0 - inf.
 -s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)|1|0 - 1
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)|1|0 - 1
