@@ -64,7 +64,15 @@ So assuming you are just using the defaults, the command line argument that need
 ```
 -l 127.0.0.1:18001
 ```
-When you are using [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) then you are probably using a startup script in order to launch all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). Hence that would be the place to add this new [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command line argument.
+When you are using [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) then you are probably using a startup script in order to launch all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). Hence that would be the place to add this new [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command line argument. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
+
+With the new [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command line argument, the [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command in the startup script would look something like this.
+```
+# Verteilen der AXUDP Daten (UDPBOX)
+# 9101 zu radiosondy.info - 9102 zu wettersonde.net - 9999 zu APRSMAP (z.B.)
+xfce4-terminal  --minimize --title UDPBOX -e 'bash -c "udpbox -R 127.0.0.1:9001 -l 127.0.0.1:9101 -l 127.0.0.1:9102 -l 127.0.0.1:9999 -l 127.0.0.1:18001 -v"' &
+sleep 1
+```
 ### 5. Modifying [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt)
 ### 6. Running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE)
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
