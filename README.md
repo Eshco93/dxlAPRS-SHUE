@@ -43,10 +43,10 @@ The [python-dateutil package](https://pypi.org/project/python-dateutil/) can als
 ```
 $ python -m pip install python-dateutil
 ```
-### 4. Cloning the dxlAPRS_SHUE Repository
-Cloning the [dxlAPRS_SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE) requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a [Raspberry Pi](https://www.raspberrypi.com/) with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself.
+### 4. Cloning the dxlAPRS-SHUE Repository
+Cloning the [dxlAPRS-SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE) requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a [Raspberry Pi](https://www.raspberrypi.com/) with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself.
 
-For cloning the [dxlAPRS_SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE), use the following command.
+For cloning the [dxlAPRS-SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE), use the following command.
 ```
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
@@ -109,7 +109,7 @@ Argument|Description|Default|Range
 
 Here is an example of what your command for launching the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
 ```
-python dxlAPRS_SHUE.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS_SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5
+python dxlAPRS-SHUE.py -a 127.0.0.1 -p 18001 -q 20 -t 0 -s 1 -w 1 -d /home/pi/dxlAPRS-SHUE/sondedata -f 150 -c S0MECALL -l 48.06339,11.52943,5 -i Monopole -u someones@mail.com -g 6 -r 30 -o 20 -e 5
 ```
 Though, you don't have to configure every single parameter of the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). If you want to leave certain parameters at their default values, you don't have to specify them explicitly. The default value is loaded for each parameter that is not explicitly specified.
 
@@ -119,7 +119,7 @@ Warning: You provided an invalid address. Therefore the default was loaded (127.
 ```
 If the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is launched with the command line argument `-h`, a help message will be printed that also explains all the available command line arguments.
 ```
-python dxlAPRS_SHUE.py -h
+python dxlAPRS-SHUE.py -h
 ```
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 When you are using [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) then you are probably using a startup script in order to launch all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). You might want to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to this start script as well. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
@@ -141,6 +141,6 @@ In order to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Esh
 ```
 #!/bin/bash
 # Beenden aller dxlAPRS Tools
-killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 SondeHubUploader
+killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 dxlAPRS-SHUE
 ```
 ## Known limitations
