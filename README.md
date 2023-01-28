@@ -142,3 +142,8 @@ In order to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Esh
 killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 dxlAPRS-SHUE
 ```
 ## Known limitations
+### Supported radiosonde types
+### No temperature from DFM radiosondes
+### No XDATA support
+### No meaningful RSSI values
+### Hardcoded leap seconds
