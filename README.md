@@ -51,5 +51,6 @@ For cloning the [dxlAPRS_SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHU
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). Put it wherever you like.
-### 4. Modifying [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox)
+### 4. Changing parameters for [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox)
+
 ## Known limitations
