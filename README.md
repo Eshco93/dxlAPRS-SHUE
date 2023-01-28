@@ -13,7 +13,7 @@ At its core, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) is a so-called toolcha
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215264049-abb16e7f-edc6-4e68-9141-fb1cc8c4a398.png" width=70% height=70%></p>
 
-On the hardware side, this fairly simple receiver station consists of a [Raspberry Pi](https://www.raspberrypi.com/) and an [RTL-SDR](https://www.rtl-sdr.com/) stick. rtl_tcp, which is not part of [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) but part of [rtl-sdr](https://github.com/osmocom/rtl-sdr), provides an SDR server. [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst) taps into this SDR server and creates receivers which send the received signals to an audio pipe. [sondeudp](http://dxlwiki.dl1nux.de/index.php?title=Sondeudp) then decodes those signals and sends the raw data to [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod). [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) packs the data into APRS packets and sends them to [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) multiplies the packets and sends them to various instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4). [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4) is an APRS gateway that will forward the packets to APRS databases like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). If you want to know more about this, I recommend visiting the website of [Attila Kocis (DL1NUX)](https://www.dl1nux.de/). He has great tutorials on dxlAPRS.
+On the hardware side, this fairly simple radiosonde receiver station consists of a [Raspberry Pi](https://www.raspberrypi.com/) and an [RTL-SDR](https://www.rtl-sdr.com/) stick. rtl_tcp, which is not part of [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) but part of [rtl-sdr](https://github.com/osmocom/rtl-sdr), provides an SDR server. [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst) taps into this SDR server and creates receivers which send the received signals to an audio pipe. [sondeudp](http://dxlwiki.dl1nux.de/index.php?title=Sondeudp) then decodes those signals and sends the raw data to [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod). [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) packs the data into APRS packets and sends them to [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) multiplies the packets and sends them to various instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4). [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4) is an APRS gateway that will forward the packets to APRS databases like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). If you want to know more about this, I recommend visiting the website of [Attila Kocis (DL1NUX)](https://www.dl1nux.de/). He has great tutorials on dxlAPRS.
 
 The following diagram shows how the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is integrated into the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS).
 
@@ -97,15 +97,15 @@ Argument|Description|Default|Range
 -s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)<br />All packages in one file with one line for each package|1|0 - 1
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)<br />One CSV file for each radiosonde, named by it's serial|1|0 - 1
 -d|Path for the files to be saved by the program|Current directory|-
--f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|50|1 - 100
+-f|Size of the queue for storeing the processed telemetry data before uploading<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data|150|1 - 300
 -c|User callsign for the [SondeHub Tracker](https://sondehub.org/)<br />Max. length: 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _|N0CALL|-
--l|User position for showing your station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
--i|User antenna for your station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
--u|Test|127.0.0.1|-
--g|Test|127.0.0.1|-
--r|Test|127.0.0.1|-
--o|Test|127.0.0.1|-
--e|Test|127.0.0.1|-
+-l|User position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: [lat, lon, alt]<br />With lat and lon in decimal degrees and alt in meters|[0.0, 0.0, 0.0]|-
+-i|User antenna for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
+-u|Your contact E-Mail address<br />Only visible for the admins of [SondeHub Tracker](https://sondehub.org/)<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station|none@none.com|-
+-g|Update rate for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map in hours|6|1 - 24
+-r|Telemetry data upload rate in seconds|30|1 - 600
+-o|Upload timeout in seconds|20|1 - 60
+-e|Max. number of upload retries|5|0 - 60
 ### 7. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your start script
 ### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
 ## Known limitations
