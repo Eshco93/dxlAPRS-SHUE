@@ -15,11 +15,11 @@ At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent 
 
 On the hardware side, this fairly simple receiver station consists of a [Raspberry Pi](https://www.raspberrypi.com/) and an [RTL-SDR](https://www.rtl-sdr.com/) stick. rtl_tcp, which is not part of dxlAPRS but part of [rtl-sdr](https://github.com/osmocom/rtl-sdr), provides an SDR server. sdrtst taps into this SDR server and creates receivers which send the received signals to an audio pipe. sondeudp then decodes those signals and sends the raw data to sondemod. sondemod packs the data into APRS packets and sends them to udpbox. udpbox multiplies the packets and sends them to various instances of udpgate4. udpgate4 is an APRS gateway that will forward the packets to APRS databases like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). If you want to know more about this, I recommend visiting the website of [Attila Kocis (DL1NUX)](https://www.dl1nux.de/). He has great tutorials on dxlAPRS.
 
-The following diagram shows how the dxlAPRS SondeHub Uploader Extension is integrated into the dxlAPRS toolchain.
+The following diagram shows how the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is integrated into the dxlAPRS toolchain.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/215265940-06f17886-d776-405c-9d9e-fd28c45c146d.png" width=70% height=70%></p>
 
-The dxlAPRS SondeHub Uploader Extension uses the APRS packets that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox, the packets can not only be forwarded to multiple instances of udpgate4, but also to the dxlAPRS SondeHub Uploader Extension.
+The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packets that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox, the packets can not only be forwarded to multiple instances of udpgate4, but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 
 The internal structure of the dxlAPRS SondeHub Uploader is fairly simple, which can be seen in the next diagram.
 
@@ -27,13 +27,13 @@ The internal structure of the dxlAPRS SondeHub Uploader is fairly simple, which 
 
 The APRS packages received from udpbox via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the [SondeHub Tracker](https://sondehub.org/) database. The upload takes place at fixed time intervals. When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station data. Receiving, processing, telemetry uploading and station uploading are all performed by concurrently running threads.
 ## Setup
-This section will guide you through the setup of the dxlAPRS SondeHub Uploader Extension.
+This section will guide you through the setup of the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 ### 1. Prerequisites
 This guide assumes that you already have your dxlAPRS radiosonde receiver station up and running. If that's not yet the case, I recommend following this [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
 ### 2. Installing Python
-The dxlAPRS SondeHub Uploader Extension is based on [Python](https://www.python.org/). For this reason it is necessary to have a reasonably current version of [Python 3](https://www.python.org/) installed. If you are using a [Raspberry Pi](https://www.raspberrypi.com/) with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [Python 3](https://www.python.org/) installed. If you're using a different system, you may have to install [Python 3](https://www.python.org/) yourself.
+The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is based on [Python](https://www.python.org/). For this reason it is necessary to have a reasonably current version of [Python 3](https://www.python.org/) installed. If you are using a [Raspberry Pi](https://www.raspberrypi.com/) with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [Python 3](https://www.python.org/) installed. If you're using a different system, you may have to install [Python 3](https://www.python.org/) yourself.
 ### 3. Python dependencies
-Some of the packages that are used by the dxlAPRS SondeHub Uploader Extension are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the [SondeHub Tracker](https://sondehub.org/) database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
+Some of the packages that are used by the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the [SondeHub Tracker](https://sondehub.org/) database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
 
 The [requests package](https://pypi.org/project/requests/) can be installed from [PyPI](https://pypi.org/) using [pip](https://pypi.org/project/pip/) with the following command.
 ```
@@ -50,4 +50,5 @@ For cloning the [dxlAPRS_SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHU
 ```
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
+You can issue this command from any directory of your system. It doesn't really matter where you put the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE)
 ## Known limitations
