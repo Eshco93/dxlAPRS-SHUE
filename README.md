@@ -25,7 +25,7 @@ The internal structure of dxlAPRS-SHUE is fairly simple, which can be seen in th
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/221045155-69727295-3bed-4c95-a812-f56f5dd30520.png"></p>
 
-The APRS packages received from udpbox via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing the data, checking for possible errors and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the SondeHub database. The upload takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station data, which also takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). Receiving, processing, telemetry uploading and station uploading are all performed by concurrently running threads.
+The APRS packages received from udpbox via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing the data, checking for possible errors and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the SondeHub database. The upload takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station information, which also takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). Receiving, processing, telemetry uploading and station information uploading are all performed by concurrently running threads.
 ## Setup
 This section will guide you through the setup of dxlAPRS-SHUE.
 ### 1. Prerequisites
@@ -33,7 +33,7 @@ This guide assumes that you already have your dxlAPRS radiosonde receiver statio
 ### 2. Installing Python
 dxlAPRS-SHUE is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
 ### 3. Python dependencies
-Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The requests package is needed for uploading the telemetry and station data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
+Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The requests package is needed for uploading the telemetry and station information data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
 
 The requests package can be installed from PyPI using pip with the following command.
 ```
@@ -107,9 +107,9 @@ Argument|Description|Default|Range
 -v|Antenna name for showing in your radiosonde receiver station information on the SondeHub Map.<br />Length: 4 - 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks.|"1/4 wave monopole"|-
 -u|Your contact E-Mail address.<br />Only visible for the admins of SondeHub.<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station.<br />**This argument is required.**|-|-
 -g|Update rate for your radiosonde receiver station information on the SondeHub Map in hours.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|6|1 - 24
--r|Telemetry data upload rate in seconds<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|30|1 - 60
--o|Upload timeout for telemetry data and radiosonde receiver station information in seconds|20|1 - 60
--e|Max. number of upload retries for telemetry data and radiosonde receiver station information|5|0 - 60
+-r|Telemetry data update rate in seconds.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|30|1 - 600
+-o|Upload timeout for telemetry data and radiosonde receiver station information in seconds.|20|1 - 60
+-e|Max. number of upload retries for telemetry data and radiosonde receiver station information.|5|0 - 60
 
 Here is an example of what your command for launching the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) could look like.
 ```
