@@ -91,6 +91,7 @@ When running the dxlAPRS-SHUE, it must be configured properly. dxlAPRS-SHUE is c
 Argument|Description|Default|Range
 -|-|-|-
 -i|Logging level for the printed log messages<br /><br />Level 1: Print errors<br />Level 2: Print warnings<br />Level 3: Print processing information<br />Level 4: Print debug messages<br />Level 5: Print detailed debug messages<br /><br />Each level also contains the messages of all lower levels|3|1 - 5
+-j|Logging level for the log messages written to the log file<br /><br />Level 1: Write errors<br />Level 2: Write warnings<br />Level 3: Write processing information<br />Level 4: Write debug messages<br />Level 5: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels|3|1 - 5
 -a|Address for the UDP socket (usually 127.0.0.1)|127.0.0.1|-
 -p|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox))|18001|1024 - 65353
 -q|Size of the queue for storeing the received APRS packages before processing<br />The size needed depends on how many radiosondes you are concurrently receiving and how fast you are able to process their incoming data<br />Usually the default of 20 should be well suited for all circumstances<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|20|1 - 100
