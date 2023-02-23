@@ -73,19 +73,19 @@ With the new udpbox command line argument, the udpbox command in the startup scr
 xfce4-terminal  --minimize --title UDPBOX -e 'bash -c "udpbox -R 127.0.0.1:9001 -l 127.0.0.1:9101 -l 127.0.0.1:9102 -l 127.0.0.1:9999 -l 127.0.0.1:18001 -v"' &
 sleep 1
 ```
-### 5. Modifying [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt)
-The [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) file can be found inside your [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) folder. The file is used by [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) and defines which parameters [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod) adds to the comment section of each APRS package. Since the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) works on the basis of these packages, the comment section should include all data that is useful for the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). This includes the following data.
+### 5. Modifying sondecom.txt
+The sondecom.txt file can be found inside your dxlAPRS folder. The file is used by sondemod and defines which telemetry parameters sondemod adds to the comment section of each APRS package. Since dxlAPRS-SHUE uses these packages, the comment section should include all telemetry parameters that are useful to dxlAPRS-SHUE. This includes the following telemetry parameters.
 
 - %F: sdr freq+AFC from [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst)
 - %n: frame number
 - %s: gps sat count
 - %u: sonde uptime
 
-The order of those parameters is not relevant to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). So the line in [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) could look like this.
+The order of those telemetry parameters is not relevant to dxlAPRS-SHUE. So the line in sondecom.txt could look like this.
 ```
 %F%n%s%u
 ```
-You can also add more parameters if you like. The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) doesn't use any additional parameters but they might be useful for other APRS databases that you are sending your APRS packages to. The total number of parameters is also not relevant to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). If you need more information on how to edit the [sondecom.txt](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) file, I suggest that you take a look at [this page](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) of the [DXL-Wiki](http://dxlwiki.dl1nux.de/index.php?title=Hauptseite) or again at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
+You can also add more telemetry parameters if you like. The dxlAPRS-SHUE doesn't use any additional telemetry parameters but they might be useful for other APRS databases that you are sending your APRS packages to. The total number of telemetry parameters is also not relevant to dxlAPRS-SHUE. If you need more information on how to edit the sondecom.txt file, I suggest that you take a look at [this page](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) of the [DXL-Wiki](http://dxlwiki.dl1nux.de/index.php?title=Hauptseite) or again at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 ### 6. Running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE)
 When running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE), it must be configured properly. The [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 Argument|Description|Default|Range
