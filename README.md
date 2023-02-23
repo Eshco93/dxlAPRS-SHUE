@@ -33,13 +33,13 @@ This guide assumes that you already have your dxlAPRS radiosonde receiver statio
 ### 2. Installing Python
 dxlAPRS-SHUE is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
 ### 3. Python dependencies
-Some of the packages that are used by the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) are not part of the [Python Standard Library](https://docs.python.org/3/library/). The [requests package](https://pypi.org/project/requests/) is needed for uploading the telemetry and station data to the [SondeHub Tracker](https://sondehub.org/) database. The [python-dateutil package](https://pypi.org/project/python-dateutil/) is needed for handling data of the [datetime module](https://docs.python.org/3/library/datetime.html).
+Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The requests package is needed for uploading the telemetry and station data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
 
-The [requests package](https://pypi.org/project/requests/) can be installed from [PyPI](https://pypi.org/) using [pip](https://pypi.org/project/pip/) with the following command.
+The requests package can be installed from PyPI using pip with the following command.
 ```
 $ python -m pip install requests
 ```
-The [python-dateutil package](https://pypi.org/project/python-dateutil/) can also be installed from [PyPI](https://pypi.org/) using [pip](https://pypi.org/project/pip/) with the following command.
+The python-dateutil package can also be installed from PyPI using pip with the following command.
 ```
 $ python -m pip install python-dateutil
 ```
