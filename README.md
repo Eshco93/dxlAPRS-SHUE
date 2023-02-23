@@ -51,10 +51,10 @@ For cloning the dxlAPRS-SHUE Repository, use the following command.
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put dxlAPRS-SHUE. Put it wherever you like.
-### 4. Changing parameters for [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox)
-As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packages that are forwarded by [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). Hence [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) needs to be configured to forward the APRS packages not only to multiple instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4), but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
+### 4. Changing parameters for udpbox
+As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE uses the APRS packages that are forwarded by udpbox. Hence udpbox needs to be configured to forward the APRS packages not only to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
-This is done by adding another command line argument to [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). Adding the following command line argument will tell udpbox to forward the raw APRS packets to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
+This is done by adding another command line argument to udpbox. Adding the following command line argument will tell udpbox to forward the raw APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
 ```
 -l <ip>:<port>
 ```
