@@ -23,7 +23,7 @@ dxlAPRS-SHUE uses the APRS packages that are created by sondemod and distributed
 
 The internal structure of dxlAPRS-SHUE is fairly simple, which can be seen in the next diagram.
 
-<p align="center"><img src="https://user-images.githubusercontent.com/34800304/215267742-2082bc5c-1b36-480e-8ccb-8faaecc828cd.png"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/34800304/221045155-69727295-3bed-4c95-a812-f56f5dd30520.png"></p>
 
 The APRS packages received from udpbox via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the [SondeHub Tracker](https://sondehub.org/) database. The upload takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station data, which also takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). Receiving, processing, telemetry uploading and station uploading are all performed by concurrently running threads.
 ## Setup
