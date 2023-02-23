@@ -58,15 +58,15 @@ This is done by adding another command line argument to udpbox. Adding the follo
 ```
 -l <ip>:<port>
 ```
-Since you are most likely running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) on the same system as [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox), you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) is `18001` (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)).
+Since you are most likely running dxlAPRS-SHUE on the same system as udpbox, you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)).
 
-So assuming you are just using the defaults, the command line argument that needs to be added to [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) would look like this.
+So assuming you are just using the defaults, the command line argument that needs to be added to udpbox would look like this.
 ```
 -l 127.0.0.1:18001
 ```
-When you are using [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) then you are probably using a startup script in order to launch all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). Hence that would be the place to add this new [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command line argument. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by [Attila Kocis (DL1NUX)](https://www.dl1nux.de/).
+When you are using dxlAPRS then you are probably using a startup script in order to launch all the individual tools of the dxlAPRS toolchain. Hence that would be the place to add this new udpbox command line argument. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 
-With the new [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command line argument, the [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) command in the startup script would look something like this.
+With the new udpbox command line argument, the udpbox command in the startup script would look something like this.
 ```
 # Verteilen der AXUDP Daten (UDPBOX)
 # 9101 zu radiosondy.info - 9102 zu wettersonde.net - 9999 zu APRSMAP (z.B.)
