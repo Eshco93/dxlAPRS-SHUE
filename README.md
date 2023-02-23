@@ -95,7 +95,7 @@ Argument|Description|Default|Range
 -t|Runtime of the program in seconds (0 for infinite runtime).<br />Usually the program runs indefinitely.|0|0 - inf.
 -a|Address for the UDP socket (usually 127.0.0.1).|127.0.0.1|-
 -p|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).|18001|1024 - 65353
--d|Path for the files written by the program|-|-
+-d|Path for the files written by the program|/dxlAPRS-SHUE/log|-
 -q|Size of the queue for storeing the received APRS packages before processing<br />The size needed depends on how many radiosondes you are concurrently receiving and how fast you are able to process their incoming data<br />Usually the default of 20 should be well suited for all circumstances<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|20|1 - 100
 -s|Save the raw APRS packages to a textfile (0 = no / 1 = yes)<br />All packages in one file with one line for each package|1|0 - 1
 -w|Save the parsed telemetry data to CSV files (0 = no / 1 = yes)<br />One CSV file for each radiosonde, named by it's serial|1|0 - 1
