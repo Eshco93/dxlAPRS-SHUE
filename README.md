@@ -5,9 +5,9 @@ When operating an amateur radiosonde receiver station, there are a bunch of diff
 
 Telemetry data gathered by amateur radiosonde receiver stations is often uploaded to online databases. Live radiosonde tracking websites are built, based on these databases. A few examples are [radiosondy.info](https://radiosondy.info/) by Michał Lewiński (SQ6KXY), [SondeHub](https://sondehub.org/) by [Project Horus](http://www.projecthorus.org/) and [wettersonde.net](https://www.wettersonde.net/) by Jean-Michael Grobel (DO2JMG).
 
-However, as you might expect, not every software allows telemetry data upload to every database. For example, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) (as the name suggests) is APRS-based and therefore only allows uploading to APRS databases, like [radiosondy.info](https://radiosondy.info/) and [wettersonde.net](https://www.wettersonde.net/). [SondeHub](https://sondehub.org/), which is not based on APRS, is therefore not supported by dxlAPRS.
+However, as you might expect, not every software allows telemetry data upload to every database. For example, dxlAPRS (as the name suggests) is APRS-based and therefore only allows uploading to APRS databases, like radiosondy.info and wettersonde.net. SondeHub, which is not based on APRS, is therefore not supported by dxlAPRS.
 
-This is where this extension of [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) comes in to play. It takes the telemetry data provided by [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) and uploads it to the [SondeHub Tracker](https://sondehub.org/) database.
+This is where this extension of dxlAPRS comes in to play. It takes the telemetry data provided by dxlAPRS and uploads it to the SondeHub database.
 ## Theory of Operation
 At its core, [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other mostly using UDP ports. The following diagram shows the structure of an exemplary dxlAPRS-based radiosonde receiver station.
 
