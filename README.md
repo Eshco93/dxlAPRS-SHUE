@@ -1,5 +1,5 @@
 # dxlAPRS SondeHub Uploader Extension
-This extension for the dxlAPRS software toolchain allows uploading of radiosonde telemetry to SondeHub.
+This extension for the dxlAPRS software toolchain allows uploading of radiosonde telemetry data to SondeHub.
 ## Introduction
 When operating an amateur radiosonde receiver station, there are a bunch of different software solutions to choose from. Examples would be [radiosonde_auto_rx](https://github.com/projecthorus/radiosonde_auto_rx) by [Mark Jessop (VK5QI)](https://github.com/darksidelemm), [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) by Christian Rabler (OE5DXL) or [rdz_ttgo_sonde](https://github.com/dl9rdz/rdz_ttgo_sonde) by [Hansi Reiser (DL9RDZ)](https://github.com/dl9rdz/). There are certainly also a few other solutions and each of them has their own advantages and disadvantages.
 
