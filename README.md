@@ -44,13 +44,13 @@ The python-dateutil package can also be installed from PyPI using pip with the f
 $ python -m pip install python-dateutil
 ```
 ### 4. Cloning the dxlAPRS-SHUE Repository
-Cloning the [dxlAPRS-SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE) requires [git](https://git-scm.com/) to be installed on your system. Once again if you are using a [Raspberry Pi](https://www.raspberrypi.com/) with [Raspberry Pi OS](https://www.raspberrypi.com/software/), you might already have [git](https://git-scm.com/) installed. If you're using a different system, you may have to install [git](https://git-scm.com/) yourself.
+Cloning the dxlAPRS-SHUE Repository requires git to be installed. Once again if you are using a Raspberry Pi with Raspberry Pi OS, you might already have git installed. If you're using a different system, you may have to install git yourself.
 
-For cloning the [dxlAPRS-SHUE Repository](https://github.com/Eshco93/dxlAPRS-SHUE), use the following command.
+For cloning the dxlAPRS-SHUE Repository, use the following command.
 ```
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
-You can issue this command from any directory of your system. It doesn't really matter where you put the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE). Put it wherever you like.
+You can issue this command from any directory of your system. It doesn't really matter where you put dxlAPRS-SHUE. Put it wherever you like.
 ### 4. Changing parameters for [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox)
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) uses the APRS packages that are forwarded by [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). Hence [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox) needs to be configured to forward the APRS packages not only to multiple instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4), but also to the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
 
