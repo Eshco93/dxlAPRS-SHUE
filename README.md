@@ -76,7 +76,7 @@ sleep 1
 ### 5. Modifying sondecom.txt
 The sondecom.txt file can be found inside your dxlAPRS folder. The file is used by sondemod and defines which telemetry parameters sondemod adds to the comment section of each APRS package. Since dxlAPRS-SHUE uses these packages, the comment section should include all telemetry parameters that are useful to dxlAPRS-SHUE. This includes the following telemetry parameters.
 
-- %F: sdr freq+AFC from [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst)
+- %F: sdr freq+AFC from sdrtst
 - %n: frame number
 - %s: gps sat count
 - %u: sonde uptime
