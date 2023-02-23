@@ -96,14 +96,14 @@ Argument|Description|Default|Range
 -a|Address for the UDP socket (usually 127.0.0.1).|127.0.0.1|-
 -p|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).|18001|1024 - 65353
 -d|Path for the files written by the program.|/dxlAPRS-SHUE/log|-
--s|Write the raw APRS packages to a textfile (0 = no / 1 = yes).<br />All packages in one file with one line for each package.|0|0 - 1
--w|Write the telemetry data to CSV files (0 = no / 1 = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|0|0 - 1
--z|Write the reformatted telemetry data to CSV files (0 = no / 1 = yes).<br />One CSV file for each radiosonde, named by it's serial with `r_` as a prefix.|0|0 - 1
+-s|Write the raw APRS packages to a textfile (0 = no / 1 = yes).<br /><br />All packages in one file with one line for each package.|0|0 - 1
+-w|Write the telemetry data to CSV files (0 = no / 1 = yes).<br /><br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|0|0 - 1
+-z|Write the reformatted telemetry data to CSV files (0 = no / 1 = yes).<br /><br />One CSV file for each radiosonde, named by it's serial with `r_` as a prefix.|0|0 - 1
 -k|Write the log to a log file (0 = no / 1 = yes).|1|0 - 1
 -q|Size of the queue for storing the received APRS packages before processing.<br />The size needed depends on how many radiosondes you are concurrently receiving and how fast you are able to process their incoming data.<br />Usually the default of 20 should be well suited for all circumstances.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|20|1 - 100
 -f|Size of the queue for storing the reformatted telemetry data before uploading.<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|100|1 - 600
 -c|User callsign for SondeHub.<br />Length: 4-15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _<br />**This argument is required.**|-|-
--l|Position for showing your radiosonde receiver station on the [SondeHub Tracker](https://sondehub.org/) Map<br />Format: lat, lon, alt<br />With lat and lon in decimal degrees and alt in meters|0.0, 0.0, 0.0|-
+-l|Position for showing your radiosonde receiver station on the SondeHub Map.<br />Format: lat, lon, alt<br />With lat and lon in decimal degrees and alt in meters|0.0, 0.0, 0.0|-
 -i|Antenna for showing in your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map<br />Max. length: 25 characters<br />If your antenna description contains spaces, you need to put it in quotation marks|"1/4 wave monopole"|-
 -u|Your contact E-Mail address<br />Only visible for the admins of [SondeHub Tracker](https://sondehub.org/)<br />Will be used to contact you in case there is an obvious issue with your radiosonde receiver station|none@none.com|-
 -g|Update rate for your radiosonde receiver station information on the [SondeHub Tracker](https://sondehub.org/) Map in hours<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|6|1 - 24
