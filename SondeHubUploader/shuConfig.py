@@ -252,8 +252,8 @@ radiosonde = {
     'RS92': ['Vaisala', 'RS92', None, ['serial', 0], 'fn', 5, 'GPS', 'GPS'],
     'DFM': ['Graw', 'DFM', ['DFM06', 'DFM09', 'DFM09P', 'DFM17'], ['serial', 1], 'gps', 2, 'UTC', 'GPS'],
     'iMET': ['Intermet Systems', 'iMet-4', None, 'IMET', 'fn', 0, 'GPS', 'MSL'],
-    'M10': ['Meteomodem', 'M10', None, ['ser', 0], 'gpsleap', 2, 'UTC', 'GPS'],
-    'M20': ['Meteomodem', 'M20', None, ['ser', 0], 'gps', 2, 'GPS', 'GPS'],
+    #'M10': ['Meteomodem', 'M10', None, ['ser', 0], 'gpsleap', 2, 'UTC', 'GPS'],
+    #'M20': ['Meteomodem', 'M20', None, ['ser', 0], 'gps', 2, 'GPS', 'GPS'],
     'MRZ': ['Meteo-Radiy', 'MRZ', None, ['ser', 0], 'gps', 5, 'UTC', 'GPS'],
     'MEISEI': ['Meisei', 'IMS100', None, ['ser', 7], 'fn', 1, 'UTC', 'GPS']
 }
