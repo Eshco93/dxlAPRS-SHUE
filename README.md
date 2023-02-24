@@ -86,8 +86,8 @@ The order of those telemetry parameters is not relevant to dxlAPRS-SHUE. So the 
 %F%n%s%u
 ```
 You can also add more telemetry parameters if you like. dxlAPRS-SHUE doesn't use any additional telemetry parameters but they might be useful for other APRS databases that you are sending your APRS packages to. The total number of telemetry parameters is also not relevant to dxlAPRS-SHUE. If you need more information on how to edit the sondecom.txt file, I suggest that you take a look at [this page](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) of the [DXL-Wiki](http://dxlwiki.dl1nux.de/index.php?title=Hauptseite) or again at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
-### 6. Running the dxlAPRS-SHUE
-When running the dxlAPRS-SHUE, it must be configured properly. dxlAPRS-SHUE is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring dxlAPRS-SHUE.
+### 6. Running dxlAPRS-SHUE
+When running dxlAPRS-SHUE, it must be configured properly. dxlAPRS-SHUE is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring dxlAPRS-SHUE.
 Argument|Description|Default|Range
 -|-|-|-
 `-i`|Logging level for the printed log messages.<br /><br />Level 1: Print errors<br />Level 2: Print warnings<br />Level 3: Print processing information<br />Level `4`: Print debug messages<br />Level `5`: Print detailed debug messages<br /><br />Each level also contains the messages of all lower levels.|`3`|`1` - `5`
@@ -125,7 +125,7 @@ If dxlAPRS-SHUE is launched with the command line argument `-h`, a help message 
 ```
 python dxlAPRS-SHUE.py -h
 ```
-### 7. Adding the dxlAPRS-SHUE to your startup script
+### 7. Adding dxlAPRS-SHUE to your startup script
 You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [4.](https://github.com/Eshco93/dxlAPRS-SHUE#4-changing-parameters-for-udpbox) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension))
 ```
 # dxlAPRS SondeHub Uploader Extension
