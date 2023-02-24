@@ -44,6 +44,8 @@ if __name__ == '__main__':
         if any(not element for element in checked_parameters.values()):
             # Print an empty line for better readability
             print()
+        
+        print('Running...')
 
         # Create a 'SondeHubUploader' object
         shu = SondeHubUploader.SondeHubUploader(casted_parameters)
