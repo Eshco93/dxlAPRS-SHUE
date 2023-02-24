@@ -90,16 +90,16 @@ You can also add more telemetry parameters if you like. dxlAPRS-SHUE doesn't use
 When running the dxlAPRS-SHUE, it must be configured properly. dxlAPRS-SHUE is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring dxlAPRS-SHUE.
 Argument|Description|Default|Range
 -|-|-|-
-`-i`|Logging level for the printed log messages.<br /><br />Level `1`: Print errors<br />Level `2`: Print warnings<br />Level `3`: Print processing information<br />Level `4`: Print debug messages<br />Level `5`: Print detailed debug messages<br /><br />Each level also contains the messages of all lower levels.|`3`|`1` - `5`
-`-j`|Logging level for the log messages written to the log file.<br /><br />Level 1: Write errors<br />Level 2: Write warnings<br />Level 3: Write processing information<br />Level 4: Write debug messages<br />Level 5: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels.<br />This argument has no effect if writing the log file is disabled (See argument -k).|3|1 - 5
-`-t`|Runtime of the program in seconds (0 for infinite runtime).<br />Usually the program runs indefinitely.|0|>=0
-`-a`|Address for the UDP socket (usually 127.0.0.1).|127.0.0.1|-
-`-p`|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).|18001|1024 - 65353
-`-d`|Path for the files written by the program.|/dxlAPRS-SHUE/log|-
-`-s`|Write the raw APRS packages to a textfile (0 = no / 1 = yes).<br />All packages in one file with one line for each package.|0|0 - 1
-`-w`|Write the telemetry data to CSV files (0 = no / 1 = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|0|0 - 1
-`-z`|Write the reformatted telemetry data to CSV files (0 = no / 1 = yes).<br />One CSV file for each radiosonde, named by it's serial with `r_` as a prefix.|0|0 - 1
-`-k`|Write the log to a log file (0 = no / 1 = yes).|1|0 - 1
+`-i`|Logging level for the printed log messages.<br /><br />Level 1: Print errors<br />Level 2: Print warnings<br />Level 3: Print processing information<br />Level `4`: Print debug messages<br />Level `5`: Print detailed debug messages<br /><br />Each level also contains the messages of all lower levels.|`3`|`1` - `5`
+`-j`|Logging level for the log messages written to the log file.<br /><br />Level 1: Write errors<br />Level 2: Write warnings<br />Level 3: Write processing information<br />Level 4: Write debug messages<br />Level 5: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels.<br />This argument has no effect if writing the log file is disabled (See argument -k).|`3`|`1` - `5`
+`-t`|Runtime of the program in seconds (`0` for infinite runtime).<br />Usually the program runs indefinitely.|`0`|>=`0`
+`-a`|Address for the UDP socket (usually `127.0.0.1`).|`127.0.0.1`|-
+`-p`|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).|`18001`|`1024` - `65353`
+`-d`|Path for the files written by the program.|`/dxlAPRS-SHUE/log`|-
+`-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes).<br />All packages in one file with one line for each package.|`0`|`0` - `1`
+`-w`|Write the telemetry data to CSV files (`0` = no / `1` = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|`0`|`0` - `1`
+`-z`|Write the reformatted telemetry data to CSV files (`0` = no / `1` = yes).<br />One CSV file for each radiosonde, named by it's serial with `r_` as a prefix.|`0`|`0` - `1`
+`-k`|Write the log to a log file (`0` = no / `1` = yes).|`1`|`0` - `1`
 `-q`|Size of the queue for storing the received APRS packages before processing.<br />The size needed depends on how many radiosondes you are concurrently receiving and how fast you are able to process their incoming data.<br />Usually the default of 20 should be well suited for all circumstances.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|20|1 - 100
 `-f`|Size of the queue for storing the reformatted telemetry data before uploading.<br />The size needed depends on how many radiosondes you are concurrently receiving and how often you are uploading the telemetry data.<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|100|1 - 600
 `-c`|User callsign for SondeHub.<br />Length: 4 - 15 characters<br />Allowed characters: a-z, A-Z, 0-9, -, _<br />**This argument is required.**|-|-
