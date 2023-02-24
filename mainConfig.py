@@ -26,7 +26,7 @@ configuration_parameters = {
     'writer': ['Write Reformatted Telemetry', int, 0, 'z', 'Write setting for the reformatted telemetry (0 = no / 1 = yes)', lambda a: str(a).isdigit() and 0 <= int(a) <= 1, False],
     'writel': ['Write Log', int, 1, 'k', 'Write setting for the log (0 = no / 1 = yes)', lambda a: str(a).isdigit() and 0 <= int(a) <= 1, False],
     'qaprs': ['APRS Queue Size', int, 20, 'q', 'Size of the queue for storing the APRS packages after receiving and before parsing', lambda a: str(a).isdigit() and 1 <= int(a) <= 100, False],
-    'qupl': ['Upload Queue Size', int, 100, 'f', 'Size of the queue for storing the radiosonde telemetry packages after parsing and before uploading', lambda a: str(a).isdigit() and 1 <= int(a) <= 600, False],
+    'qupl': ['Upload Queue Size', int, 200, 'f', 'Size of the queue for storing the radiosonde telemetry packages after parsing and before uploading', lambda a: str(a).isdigit() and 1 <= int(a) <= 600, False],
     'call': ['User Callsign', str, None, 'c', 'User callsign for SondeHub', lambda a: parameterChecks.check_user_callsign(a, 4, 15), True],
     'pos': ['User Position', list, None, 'l', 'User position for SondeHub', lambda a: parameterChecks.check_user_position(a, -100, 8000), True],
     'ant': ['User Antenna', str, '1/4 wave monopole', 'v', 'User antenna for SondeHub', lambda a: 4 <= len(a) <= 25, False],
