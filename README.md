@@ -147,7 +147,7 @@ killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 dxlAPRS-SHUE
 ```
 ## Additional information
 ### Supported radiosonde types
-Regarding the supported radiosonde types, dxlAPRS-SHUE is obviously limited to all the radiosonde types that are supported by both, dxlAPRS and SondeHu. At the moment this includes the follwing radiosonde types.
+Regarding the supported radiosonde types, dxlAPRS-SHUE is obviously limited to all the radiosonde types that are supported by both, dxlAPRS and SondeHub. At the moment this includes the follwing radiosonde types.
 - RS41
 - RS92 (Usually no longer used)
 - IMET
