@@ -136,10 +136,10 @@ This is what the entire line for the startup script, including the command descr
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'bash -c "python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5"' &
 ```
-### 8. Adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script
-If you added the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your startup script as explained in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE#7-adding-the-dxlaprs-sondehub-uploader-extension-to-your-start-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the [dxlAPRS toolchain](https://github.com/oe5hpm/dxlAPRS). The stop script goes by the name `sondestop.sh` and can be found inside your [dxlAPRS](https://github.com/oe5hpm/dxlAPRS) folder.
+### 8. Adding dxlAPRS-SHUE to your stop script
+If you added dxlAPRS-SHUE to your startup script as explained in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE#7-adding-the-dxlaprs-sondehub-uploader-extension-to-your-start-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the dxlAPRS toolchain. The stop script goes by the name `sondestop.sh` and can be found inside your dxlAPRS folder.
 
-In order to add the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE) to your stop script, just add `dxlAPRS-SHUE` to the end of the line in the stop script. This is what the stop script will look like after adding the [dxlAPRS SondeHub Uploader Extension](https://github.com/Eshco93/dxlAPRS-SHUE).
+In order to add dxlAPRS-SHUE to your stop script, just add `dxlAPRS-SHUE` to the end of the line in the stop script. This is what the stop script will look like after adding dxlAPRS-SHUE.
 ```
 #!/bin/bash
 # Beenden aller dxlAPRS Tools
