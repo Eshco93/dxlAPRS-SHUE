@@ -9,8 +9,8 @@
 import copy
 import time
 
-import parameterChecks
 # Own modules
+import parameterChecks
 import mainConfig
 import procName
 import parameterHandling
@@ -44,7 +44,7 @@ if __name__ == '__main__':
         if any(not element for element in checked_parameters.values()):
             # Print an empty line for better readability
             print()
-        
+
         print('Running...')
 
         # Create a 'SondeHubUploader' object
