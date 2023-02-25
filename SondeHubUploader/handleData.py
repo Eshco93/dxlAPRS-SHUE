@@ -39,6 +39,11 @@ def parse_aprs_package(self, aprs_package):
         if start_index != -1:
             # For parsing, the end index of the value needs to be found as well
             end_index = aprs_package_string[start_index:].find(end_string) + start_index
+            # End index will be start index - 1 if it was not found
+            # In that case the telemetry parameter is the last one in the aprs package string
+            if end_index < start_index:
+                # The end index is therefore set to the last index in the aprs package string
+                end_index = len(aprs_package_string)-1
             # The actual parsing is again done using the parse function
             try:
                 telemetry[parameter] = parse_function(aprs_package_string[start_index:end_index])
@@ -55,6 +60,11 @@ def parse_aprs_package(self, aprs_package):
         start_index = self.utils.aprs_package_string_find_key(aprs_package_string, start_string)
         if start_index != -1:
             end_index = aprs_package_string[start_index:].find(end_string) + start_index
+            # End index will be start index - 1 if it was not found
+            # In that case the telemetry parameter is the last one in the aprs package string
+            if end_index < start_index:
+                # The end index is therefore set to the last index in the aprs package string
+                end_index = len(aprs_package_string) - 1
             # The actual parsing is different compared to the optional telemetry parameters
             # Optional multivalue telemetry parameters contain a list of subparameters
             # The subparameters are parsed using the subparameter parse function
@@ -178,6 +188,10 @@ def reformat_telemetry(self, telemetry):
                 # For M10 radiosondes, the serial provided by dxlAPRS is missing some dashes
                 if reformatted_telemetry['type'] == 'M10':
                     reformatted_telemetry['serial'] = reformatted_telemetry['serial'][0:3] + '-' + reformatted_telemetry['serial'][3] + '-' + reformatted_telemetry['serial'][4:]
+                # For M20 radiosondes, the serial might have some sort of number in square brackets attached
+                # This needs to me removed
+                if reformatted_telemetry['type'] == 'M20':
+                    reformatted_telemetry['serial'] = reformatted_telemetry['serial'].split('[', 1)[0]
             # The datetime is composed of the time provided by dxlAPRS and a date that is added manually
             reformatted_telemetry['datetime'] = self.utils.fix_datetime(self, telemetry['hour'], telemetry['minute'], telemetry['second'], True if ref_datetime == 'GPS' else False).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             # For most radiosondes, the framenumber can be taken directly from the telemetry
