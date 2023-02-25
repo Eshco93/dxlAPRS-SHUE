@@ -26,10 +26,9 @@ loglevel = {
 sondehub_telemetry_url = 'https://api.v2.sondehub.org/sondes/telemetry'
 sondehub_station_url = 'https://api.v2.sondehub.org/listeners'
 
-
 # Software definitions
 software_name = 'dxlAPRS-SHUE'
-software_version = '1.0.0'
+software_version = '1.0.1'
 
 # Status code definitions
 status_code_ok = 200
