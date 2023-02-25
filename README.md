@@ -33,9 +33,13 @@ This guide assumes that you already have your dxlAPRS radiosonde receiver statio
 ### 2. Installing Python
 dxlAPRS-SHUE is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
 ### 3. Python dependencies
-Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The requests package is needed for uploading the telemetry and station information data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
+Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The crc package is needed for performing a CRC on the incoming APRS packages. The requests package is needed for uploading the telemetry and station information data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
 
-The requests package can be installed from PyPI using pip with the following command.
+The crc package can be installed from PyPI using pip with the following command.
+```
+$ python -m pip install crc
+```
+The requests package can also be installed from PyPI using pip with the following command.
 ```
 $ python -m pip install requests
 ```
