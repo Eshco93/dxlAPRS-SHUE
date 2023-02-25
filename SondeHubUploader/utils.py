@@ -7,7 +7,7 @@
 
 import datetime
 import hashlib
-from dateutil.parser import parse
+import dateutil.parser
 
 
 # Search for a key inside an aprs package string
@@ -62,11 +62,11 @@ def fix_datetime(self, hour, minute, second, leap, local_datetime_str=None):
         now = datetime.datetime.utcnow()
         self.loggerObj.debug('Using UTC for datetime fixing (%s)', now)
     else:
-        now = parse(local_datetime_str)
+        now = dateutil.parser.parse(local_datetime_str)
         self.loggerObj.debug('Using local datetime string for datetime fixing (%s)', now)
 
     # A datetime string is generated, using the radiosonde time and the current date
-    fixed_datetime = parse(f'{hour:02d}:{minute:02d}:{second:02d}', default=now)
+    fixed_datetime = dateutil.parser.parse(f'{hour:02d}:{minute:02d}:{second:02d}', default=now)
 
     # Everything is fine, if the time is outside the rollover window
     if now.hour in [23, 0]:
