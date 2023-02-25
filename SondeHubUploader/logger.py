@@ -1,4 +1,4 @@
-# logging.py - Functions for logger configuration
+# logging.py - Functions for logger creation
 #
 # Copyright (C) Simon Schäfer <simon.gsa@web.de>
 #
@@ -10,7 +10,10 @@ import logging
 
 
 # Configure logger
-def configure_logger(self, logger, loglevelp, loglevelw, savel):
+def create_logger(self, loglevelp, loglevelw, savel):
+    # Define a logger
+    self.loggerObj = logging.getLogger('logger')
+
     # Add a custom logging level for detailed debugging
     add_logging_level('DEBUG_DETAIL', self.shuConfig.loglevel[5])
 
@@ -19,16 +22,16 @@ def configure_logger(self, logger, loglevelp, loglevelw, savel):
     c_handler = logging.StreamHandler()
     c_handler.setFormatter(c_format)
     c_handler.setLevel(self.shuConfig.loglevel[loglevelp])
-    logger.addHandler(c_handler)
+    self.loggerObj.addHandler(c_handler)
     # A optional 'FileHandler' might be added to the logger
     if savel:
         f_format = logging.Formatter('[%(asctime)s - %(levelname)s] %(message)s')
         f_handler = logging.FileHandler(self.filepath + '/' + 'log.log')
         f_handler.setFormatter(f_format)
         f_handler.setLevel(self.shuConfig.loglevel[loglevelw])
-        logger.addHandler(f_handler)
+        self.loggerObj.addHandler(f_handler)
     # A level must also be set for the logger itself, not only for the handlers
-    logger.setLevel(self.shuConfig.loglevel[5])
+    self.loggerObj.setLevel(self.shuConfig.loglevel[5])
 
 
 # Add a custom logging level
