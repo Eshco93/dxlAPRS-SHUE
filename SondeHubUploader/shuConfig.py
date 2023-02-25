@@ -120,7 +120,7 @@ telemetry = {
     'control': [lambda a: True if a == hex(0x3) else False, False, False, None, None],
     'protocol_id': [lambda a: True if a == hex(0xF0) else False, False, False, None, None],
     'data_type': [lambda a: True if a == ';' else False, False, False, None, None],
-    'serial': [None, ['RS41', 'RS92', 'DFM'], False, None, None],
+    'serial': [lambda a: True if len(a) >= 4 else False, ['RS41', 'RS92', 'DFM'], False, None, None],
     'hour': [lambda a: True if a <= 23 else False, True, False, None, None],
     'minute': [lambda a: True if a <= 59 else False, True, False, None, None],
     'second': [lambda a: True if a <= 59 else False, True, False, None, None],
@@ -156,7 +156,7 @@ telemetry = {
     'elevation': [lambda a: True if 0 <= a <= 90 else False, False, False, None, None],
     'dist': [lambda a: True if 0 <= a <= 1500 else False, False, False, None, None],
     'dev': [None, False, False, None, None],
-    'ser': [None, ['M10', 'M20', 'MRZ', 'MEISEI'], False, None, None],
+    'ser': [lambda a: True if len(a) >= 4 else False, ['M10', 'M20', 'MRZ', 'MEISEI'], False, None, None],
     'tx_past_burst_hour': [lambda a: True if a <= 23 else False, False, False, None, None],
     'tx_past_burst_minute': [lambda a: True if a <= 59 else False, False, False, None, None],
     'tx_past_burst_second': [lambda a: True if a <= 59 else False, False, False, None, None],
@@ -252,8 +252,8 @@ radiosonde = {
     'RS92': ['Vaisala', 'RS92', None, ['serial', 0], 'fn', 5, 'GPS', 'GPS'],
     'DFM': ['Graw', 'DFM', ['DFM06', 'DFM09', 'DFM09P', 'DFM17'], ['serial', 1], 'gps', 2, 'UTC', 'GPS'],
     'iMET': ['Intermet Systems', 'iMet-4', None, 'IMET', 'fn', 0, 'GPS', 'MSL'],
-    #'M10': ['Meteomodem', 'M10', None, ['ser', 0], 'gpsleap', 2, 'UTC', 'GPS'],
-    #'M20': ['Meteomodem', 'M20', None, ['ser', 0], 'gps', 2, 'GPS', 'GPS'],
+    'M10': ['Meteomodem', 'M10', None, ['ser', 0], 'gpsleap', 2, 'UTC', 'GPS'],
+    'M20': ['Meteomodem', 'M20', None, ['ser', 0], 'gps', 2, 'GPS', 'GPS'],
     'MRZ': ['Meteo-Radiy', 'MRZ', None, ['ser', 0], 'gps', 5, 'UTC', 'GPS'],
     'MEISEI': ['Meisei', 'IMS100', None, ['ser', 7], 'fn', 1, 'UTC', 'GPS']
 }
