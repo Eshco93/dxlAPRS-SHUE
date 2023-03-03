@@ -28,7 +28,7 @@ sondehub_station_url = 'https://api.v2.sondehub.org/listeners'
 
 # Software definitions
 software_name = 'dxlAPRS-SHUE'
-software_version = '1.0.1'
+software_version = '1.0.2'
 
 # Status code definitions
 status_code_ok = 200

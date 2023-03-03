@@ -54,7 +54,7 @@ if __name__ == '__main__':
         if casted_parameters['runtime'] == 0:
             while True:
                 # Nothing needs to be done here, since all the processing is handled by the threads of the 'SondeHubUploader'
-                pass
+                time.sleep(1)
         # Sleep for the configured 'runtime' and close afterwards
         elif casted_parameters['runtime'] > 0:
             time.sleep(casted_parameters['runtime'])
