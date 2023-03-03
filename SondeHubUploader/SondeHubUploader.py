@@ -15,6 +15,7 @@ class SondeHubUploader:
 
     import SondeHubUploader.shuConfig as shuConfig
     import SondeHubUploader.logger as logger
+    import SondeHubUploader.crc as crc
     import SondeHubUploader.threads as threads
     import SondeHubUploader.handleData as handleData
     import SondeHubUploader.conversions as conversions
@@ -28,11 +29,12 @@ class SondeHubUploader:
     def __init__(self, args):
         # Save the provided configuration parameters
         self.__dict__.update(args)
-        
-        # Define a logger object
-        self.loggerObj = logging.getLogger('logger')
-        # Configure the logger
-        self.logger.configure_logger(self, self.loggerObj, self.loglevelp, self.loglevelw, self.writel)
+
+        # Create a logger
+        self.logger.create_logger(self, self.loglevelp, self.loglevelw, self.writel)
+
+        # Create a crc calculator
+        self.crc.crc_create_calculator(self, 16, 0x1021, 0xFFFF, 0xFFFF, True, True)
         
         # Used to break out of while-loops when the SondeHubUploader is terminated
         self.running = True

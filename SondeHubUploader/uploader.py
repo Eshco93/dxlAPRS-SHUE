@@ -9,7 +9,7 @@ import time
 import requests
 import json
 import gzip
-from email.utils import formatdate
+import email.utils
 
 
 # Upload station to SondeHub
@@ -36,7 +36,7 @@ def upload_station(self):
             headers = {
                 'User-Agent': self.shuConfig.software_name + '-' + self.shuConfig.software_version,
                 'Content-Type': 'application/json',
-                'Date': formatdate(timeval=None, localtime=False, usegmt=True)
+                'Date': email.utils.formatdate(timeval=None, localtime=False, usegmt=True)
             }
             req = requests.put(
                 self.shuConfig.sondehub_station_url,
@@ -91,7 +91,7 @@ def upload_telemetry(self, reformatted_telemetry):
                 'User-Agent': self.shuConfig.software_name + '-' + self.shuConfig.software_version,
                 'Content-Encoding': 'gzip',
                 'Content-Type': 'application/json',
-                'Date': formatdate(timeval=None, localtime=False, usegmt=True)
+                'Date': email.utils.formatdate(timeval=None, localtime=False, usegmt=True)
             }
             req = requests.put(
                 self.shuConfig.sondehub_telemetry_url,

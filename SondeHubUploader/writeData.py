@@ -7,6 +7,7 @@
 
 # Modules
 import csv
+import datetime
 import os.path
 
 
@@ -17,7 +18,7 @@ def write_raw_data(self, raw_data):
     filename = self.filepath + '/' + self.shuConfig.filename_raw_data + '.txt'
     try:
         f = open(filename, 'a', newline='', encoding='utf-8')
-        f.write(str(raw_data))
+        f.write('[' + str(datetime.datetime.now()) + '] ' + str(raw_data))
         # All entries are separated by a new line
         f.write('\n')
         f.close()
