@@ -56,6 +56,9 @@ As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHU
 
 For the APRS databases, the telemetry data is encapsulated in APRS packages directly after receipt and immediately transmitted to the respective databases. Each telemetry data package is encapsulated and transmitted individually. This method is very inefficient and leads to large amounts of data to be transmitted. For this reason, usually not every single received telemetry data packet actually transmitted via APRS. Instead, fixed transmission intervals are used. All untransmitted telemetry data is simply discarded. This is done to keep traffic to the APRS databases at a manageable level. For dxlAPRS, the transmission intervals are defined in the sondeconfig.txt file that can be found inside your dxlAPRS folder. If you need more information on how to edit the sondeconfig.txt file, I suggest that you take a look at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 
+SondeHub, on the other hand, works very different. In the case of SondeHub, the received telemetry data is not transmitted individually immediately after receipt. Instead, received telemetry data is first collected and then transmitted to SondeHub at fixed time intervals. Multiple packages of telemetry data are sent to SondeHub in a single large package. In addition, the data packages are compressed before transmission. This method is very efficient and keeps transmission overhead very low. For this reason, with SondeHub it is possible and desirable that every single received telemetry data package is also uploaded.
+
+
 
 
 
