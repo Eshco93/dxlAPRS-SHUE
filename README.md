@@ -21,6 +21,17 @@ The following diagram shows how the dxlAPRS SondeHub Uploader Extension (dxlAPRS
 
 dxlAPRS-SHUE uses the APRS packages that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)), the packages can not only be forwarded to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
+dxlAPRS-SHUE uses the data that is sent out by sondemod via UDP. However, sondemod provides two different UDP streams that dxlAPRS-SHUE can use. On the one hand, dxlAPRS-SHUE can use the APRS packages that sondemod already sends out to various instances of udpgate4. On the other hand, dxlAPRS-SHUE can use the UDP JSON output that sondemod provides (recommended). Both options are equally easy to implement and only require a small adjustment of the configuration of sondemod (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).
+
+
+
+
+
+
+
+
+
+
 The internal structure of dxlAPRS-SHUE is fairly simple, which can be seen in the next diagram.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/221045155-69727295-3bed-4c95-a812-f56f5dd30520.png"></p>
@@ -55,7 +66,7 @@ For cloning the dxlAPRS-SHUE Repository, use the following command.
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put dxlAPRS-SHUE. Put it wherever you like.
-### 4. Changing parameters for udpbox
+### 5. Changing parameters for udpbox
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE uses the APRS packages that are forwarded by udpbox. Hence udpbox needs to be configured to forward the APRS packages not only to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
 This is done by adding another command line argument to udpbox. Adding the following command line argument will tell udpbox to forward the raw APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
@@ -77,7 +88,7 @@ With the new udpbox command line argument, the udpbox command in the startup scr
 xfce4-terminal  --minimize --title UDPBOX -e 'bash -c "udpbox -R 127.0.0.1:9001 -l 127.0.0.1:9101 -l 127.0.0.1:9102 -l 127.0.0.1:9999 -l 127.0.0.1:18001 -v"' &
 sleep 1
 ```
-### 5. Modifying sondecom.txt
+### 6. Modifying sondecom.txt
 The sondecom.txt file can be found inside your dxlAPRS folder. The file is used by sondemod and defines which telemetry parameters sondemod adds to the comment section of each APRS package. Since dxlAPRS-SHUE uses these packages, the comment section should include all telemetry parameters that are useful to dxlAPRS-SHUE. This includes the following telemetry parameters.
 
 - %F: sdr freq+AFC from sdrtst
@@ -90,7 +101,7 @@ The order of those telemetry parameters is not relevant to dxlAPRS-SHUE. So the 
 %F%n%s%u
 ```
 You can also add more telemetry parameters if you like. dxlAPRS-SHUE doesn't use any additional telemetry parameters but they might be useful for other APRS databases that you are sending your APRS packages to. The total number of telemetry parameters is also not relevant to dxlAPRS-SHUE. If you need more information on how to edit the sondecom.txt file, I suggest that you take a look at [this page](http://dxlwiki.dl1nux.de/index.php?title=Sondecom.txt) of the [DXL-Wiki](http://dxlwiki.dl1nux.de/index.php?title=Hauptseite) or again at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
-### 6. Running dxlAPRS-SHUE
+### 7. Running dxlAPRS-SHUE
 When running dxlAPRS-SHUE, it must be configured properly. dxlAPRS-SHUE is configured using command line arguments. The following table gives an overview of all the command line arguments used for configuring dxlAPRS-SHUE.
 Argument|Description|Default|Range
 -|-|-|-
@@ -129,7 +140,7 @@ If dxlAPRS-SHUE is launched with the command line argument `-h`, a help message 
 ```
 python dxlAPRS-SHUE.py -h
 ```
-### 7. Adding dxlAPRS-SHUE to your startup script
+### 8. Adding dxlAPRS-SHUE to your startup script
 You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [4.](https://github.com/Eshco93/dxlAPRS-SHUE#4-changing-parameters-for-udpbox) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension))
 ```
 # dxlAPRS SondeHub Uploader Extension
@@ -140,7 +151,7 @@ This is what the entire line for the startup script, including the command descr
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5' &
 ```
-### 8. Adding dxlAPRS-SHUE to your stop script
+### 9. Adding dxlAPRS-SHUE to your stop script
 If you added dxlAPRS-SHUE to your startup script as explained in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE#7-adding-the-dxlaprs-sondehub-uploader-extension-to-your-start-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the dxlAPRS toolchain. The stop script goes by the name `sondestop.sh` and can be found inside your dxlAPRS folder.
 
 In order to add dxlAPRS-SHUE to your stop script, just add `dxlAPRS-SHUE` to the end of the line in the stop script. This is what the stop script will look like after adding dxlAPRS-SHUE.
