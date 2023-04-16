@@ -25,7 +25,7 @@ The internal structure of dxlAPRS-SHUE is fairly simple, which can be seen in th
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/221045155-69727295-3bed-4c95-a812-f56f5dd30520.png"></p>
 
-The packages received from sondemod via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing the data, checking for possible errors and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the SondeHub database. The upload takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station information, which also takes place at fixed time intervals (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)). Receiving, processing, telemetry uploading and station information uploading are all performed by concurrently running threads.
+The packages received from sondemod via UDP are stored in a queue. The stored packages are then processed once at a time, which involves parsing the data, checking for possible errors and reformatting the telemetry data to the [SondeHub Telemetry Format](https://github.com/projecthorus/sondehub-infra/wiki/SondeHub-Telemetry-Format). The reformatted telemetry data is again stored in a queue, waiting for upload to the SondeHub database. The upload takes place at fixed time intervals (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)). When an upload is performed, all the telemetry data currently in the queue is uploaded at once. Another completely independent process handles the upload of the station information, which also takes place at fixed time intervals (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)). Receiving, processing, telemetry uploading and station information uploading are all performed by concurrently running threads.
 ## Setup
 This section will guide you through the setup of dxlAPRS-SHUE.
 ### 1. Prerequisites
@@ -62,7 +62,7 @@ This is done by adding another command line argument to udpbox. Adding the follo
 ```
 -l <ip>:<port>
 ```
-Since you are most likely running dxlAPRS-SHUE on the same system as udpbox, you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)).
+Since you are most likely running dxlAPRS-SHUE on the same system as udpbox, you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)).
 
 So assuming you are just using the defaults, the command line argument that needs to be added to udpbox would look like this.
 ```
@@ -98,7 +98,7 @@ Argument|Description|Default|Range
 `-j`|Logging level for the log messages written to the log file.<br /><br />Level 1: Write errors<br />Level 2: Write warnings<br />Level 3: Write processing information<br />Level 4: Write debug messages<br />Level 5: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels.<br />This argument has no effect if writing the log file is disabled (See argument -k).|`3`|`1` - `5`
 `-t`|Runtime of the program in seconds (`0` for infinite runtime).<br />Usually the program runs indefinitely.|`0`|>=`0`
 `-a`|Address for the UDP socket (usually `127.0.0.1`).|`127.0.0.1`|-
-`-p`|Port for the UDP socket (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).|`18001`|`1024` - `65353`
+`-p`|Port for the UDP socket (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox)).|`18001`|`1024` - `65353`
 `-d`|Path for the files written by the program.|`/dxlAPRS-SHUE/log`|-
 `-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes).<br />All packages in one file with one line for each package.|`0`|`0` - `1`
 `-w`|Write the telemetry data to CSV files (`0` = no / `1` = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|`0`|`0` - `1`
@@ -130,18 +130,18 @@ If dxlAPRS-SHUE is launched with the command line argument `-h`, a help message 
 python dxlAPRS-SHUE.py -h
 ```
 ### 8. Adding dxlAPRS-SHUE to your startup script
-You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [4.](https://github.com/Eshco93/dxlAPRS-SHUE#4-changing-parameters-for-udpbox) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension))
+You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue))
 ```
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e '<command>' &
 ```
-This is what the entire line for the startup script, including the command described in section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension), would look like.
+This is what the entire line for the startup script, including the command described in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue), would look like.
 ```
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5' &
 ```
 ### 9. Adding dxlAPRS-SHUE to your stop script
-If you added dxlAPRS-SHUE to your startup script as explained in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE#7-adding-the-dxlaprs-sondehub-uploader-extension-to-your-start-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the dxlAPRS toolchain. The stop script goes by the name `sondestop.sh` and can be found inside your dxlAPRS folder.
+If you added dxlAPRS-SHUE to your startup script as explained in section [8.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#8-adding-dxlaprs-shue-to-your-startup-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the dxlAPRS toolchain. The stop script goes by the name `sondestop.sh` and can be found inside your dxlAPRS folder.
 
 In order to add dxlAPRS-SHUE to your stop script, just add `dxlAPRS-SHUE` to the end of the line in the stop script. This is what the stop script will look like after adding dxlAPRS-SHUE.
 ```
@@ -163,7 +163,7 @@ Regarding the supported radiosonde types, dxlAPRS-SHUE is obviously limited to a
 ### No temperature from DFM radiosondes
 While other software solutions for radiosonde receiver stations (like radiosonde_auto_rx and rdz_ttgo_sonde) seem to at least support temperature reading from DFM radiosondes, dxlAPRS doesn't do that at the moment. Therefore telemetry data upload for DFM radiosondes is currently limited to the position data only.
 ### Not enough frames from DFM radiosondes
-SondeHub performs a basic [z-test](https://github.com/projecthorus/sondehub-infra/wiki/Telemetry-check-error-messages) on the telemetry data that is being uploaded. Due to a [quirk of the DFM radiosondes](https://github.com/projecthorus/sondehub-infra/wiki/DFM-radiosonde-above-1000-and-not-enough-data-to-perform-z-check), SondeHub needs at least 10 frames of a DFM radiosonde in every uploaded telemetry package in order to perform this z-test. To ensure that, the telemetry data update rate (See section [6.](https://github.com/Eshco93/dxlAPRS-SHUE#6-running-the-dxlaprs-sondehub-uploader-extension)) should be 20 or higher. A future version of dxlAPRS-SHUE may address this issue by treating the upload for DFM radiosondes differently than the upload for all other radiosondes.
+SondeHub performs a basic [z-test](https://github.com/projecthorus/sondehub-infra/wiki/Telemetry-check-error-messages) on the telemetry data that is being uploaded. Due to a [quirk of the DFM radiosondes](https://github.com/projecthorus/sondehub-infra/wiki/DFM-radiosonde-above-1000-and-not-enough-data-to-perform-z-check), SondeHub needs at least 10 frames of a DFM radiosonde in every uploaded telemetry package in order to perform this z-test. To ensure that, the telemetry data update rate (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)) should be 20 or higher. A future version of dxlAPRS-SHUE may address this issue by treating the upload for DFM radiosondes differently than the upload for all other radiosondes.
 ### No XDATA support
 While SondeHub generally works based on decoded telemetry data, the data from external measurement instruments (like ozone probes) is handled differently. The XDATA field, which contains the raw data coming from the external measurement instrument, is directly uploaded to the SondeHub database. The [decoding](https://github.com/projecthorus/sondehub-infra/wiki/XDATA-Decoding) is then done by SondeHub, rather than by the radiosonde receiver station. That poses a problem since the APRS packages that sondemod is providing already contain the decoded telemetry data from external measurement instruments, but not the raw XDATA. Therefore there is currently no XDATA support.
 ### No meaningful RSSI values
