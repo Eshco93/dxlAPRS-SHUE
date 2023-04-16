@@ -11,7 +11,7 @@ This is where this extension of dxlAPRS comes in to play. It takes the telemetry
 ## Theory of Operation
 At its core, dxlAPRS is a so-called toolchain, i.e. a collection of independent tools that are chained together. The tools communicate with each other mostly using UDP. The following diagram shows the structure of an exemplary dxlAPRS-based radiosonde receiver station.
 
-<p align="center"><img src="https://user-images.githubusercontent.com/34800304/215264049-abb16e7f-edc6-4e68-9141-fb1cc8c4a398.png" width=70% height=70%></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/34800304/232325696-dd6da51b-eacd-4cb7-a7a6-a08ba0171446.png" width=70% height=70%></p>
 
 On the hardware side, this fairly simple radiosonde receiver station consists of a Raspberry Pi and an RTL-SDR stick. rtl_tcp, which is not part of dxlAPRS but part of rtl-sdr, provides an SDR server. [sdrtst](http://dxlwiki.dl1nux.de/index.php?title=Sdrtst) taps into this SDR server and creates receivers which send the received signals to an audio pipe. [sondeudp](http://dxlwiki.dl1nux.de/index.php?title=Sondeudp) then decodes those signals and sends the raw data to [sondemod](http://dxlwiki.dl1nux.de/index.php?title=Sondemod). sondemod packs the data into APRS packages and sends them to [udpbox](http://dxlwiki.dl1nux.de/index.php?title=Udpbox). udpbox multiplies the packages and sends them to various instances of [udpgate4](http://dxlwiki.dl1nux.de/index.php?title=Udpgate4). udpgate4 is an APRS gateway that will forward the packages to APRS databases like radiosondy.info and wettersonde.net. If you want to know more about this, I recommend visiting the website of [Attila Kocis (DL1NUX)](https://www.dl1nux.de/). He has great tutorials on dxlAPRS.
 
