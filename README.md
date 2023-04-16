@@ -54,9 +54,7 @@ You can issue this command from any directory of your system. It doesn't really 
 ### 5. Changing parameters for sondemod
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE can either use the APRS packages that sondemod already sends out to various instances of udpgate4 or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this lies in a fundamental difference between APRS databases, like radiosondy.info and wettersonde.net, and SondeHub.
 
-For the APRS databases, the telemetry data is encapsulated in APRS packages directly after receipt and immediately transmitted to the respective databases. Each telemetry data package is encapsulated and transmitted individually. This method is very inefficient and leads to large amounts of data to be transmitted. For this reason, usually not every single received telemetry data packet actually transmitted via APRS.
-
-
+For the APRS databases, the telemetry data is encapsulated in APRS packages directly after receipt and immediately transmitted to the respective databases. Each telemetry data package is encapsulated and transmitted individually. This method is very inefficient and leads to large amounts of data to be transmitted. For this reason, usually not every single received telemetry data packet actually transmitted via APRS. Instead, fixed transmission intervals are used. All untransmitted telemetry data is simply discarded. This is done to keep traffic to the APRS databases at a manageable level. For dxlAPRS, the transmission intervals are defined in the sondeconfig.txt file that can be found inside your dxlAPRS folder. If you need more information on how to edit the sondeconfig.txt file, I suggest that you take a look at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 
 
 
