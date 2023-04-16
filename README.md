@@ -17,7 +17,7 @@ On the hardware side, this fairly simple radiosonde receiver station consists of
 
 The following diagram shows how the dxlAPRS SondeHub Uploader Extension (dxlAPRS-SHUE) is integrated into dxlAPRS.
 
-<p align="center"><img src="https://user-images.githubusercontent.com/34800304/221043743-d5b248a8-2f12-43ba-8f19-46c55afb28a0.png" width=70% height=70%></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/34800304/232325822-d8f3066b-735b-4d56-b133-304f941cc153.png" width=70% height=70%></p>
 
 dxlAPRS-SHUE uses the APRS packages that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)), the packages can not only be forwarded to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
