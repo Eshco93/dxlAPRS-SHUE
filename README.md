@@ -21,7 +21,7 @@ The following diagram shows how the dxlAPRS SondeHub Uploader Extension (dxlAPRS
 
 dxlAPRS-SHUE uses the APRS packages that are created by sondemod and distributed by udpbox. With a small adjustment of the configuration of udpbox (See section [4.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)), the packages can not only be forwarded to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
-dxlAPRS-SHUE uses the data that is sent out by sondemod via UDP. However, sondemod provides two different UDP streams that dxlAPRS-SHUE can use. On the one hand, dxlAPRS-SHUE can use the APRS packages that sondemod already sends out to various instances of udpgate4. On the other hand, dxlAPRS-SHUE can use the UDP JSON output that sondemod provides (recommended). Both options are equally easy to implement and only require a small adjustment of the configuration of sondemod (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#4-changing-parameters-for-udpbox)).
+dxlAPRS-SHUE uses the data that is sent out by sondemod via UDP. However, sondemod provides two different UDP streams that dxlAPRS-SHUE can use. On the one hand, dxlAPRS-SHUE can use the APRS packages that sondemod already sends out to various instances of udpgate4. On the other hand, dxlAPRS-SHUE can use the UDP JSON output that sondemod provides (recommended). Both options are equally easy to implement and only require a small adjustment of the configuration of sondemod (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox)).
 
 
 
