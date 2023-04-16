@@ -52,6 +52,14 @@ $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put dxlAPRS-SHUE. Put it wherever you like.
 ### 5. Changing parameters for sondemod
+As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE can either use the APRS packages that sondemod already sends out to various instances of udpgate4 or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this lies in a fundamental difference between APRS databases, like radiosondy.info and wettersonde.net, and SondeHub. For the APRS databases, the telemetry data is encapsulated in APRS packages directly after receipt and immediately transmitted to the respective databases. Each telemetry data package is encapsulated and transmitted individually.
+
+
+
+
+
+
+
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE uses the APRS packages that are forwarded by udpbox. Hence udpbox needs to be configured to forward the APRS packages not only to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
 This is done by adding another command line argument to udpbox. Adding the following command line argument will tell udpbox to forward the raw APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
