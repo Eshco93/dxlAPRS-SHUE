@@ -33,7 +33,7 @@ This guide assumes that you already have your dxlAPRS radiosonde receiver statio
 ### 2. Installing Python
 dxlAPRS-SHUE is based on Python. For this reason it is necessary to have a reasonably current version of Python 3 installed. If you are using a Raspberry Pi with Raspberry Pi OS, you might already have Python 3 installed. If you're using a different system, you may have to install Python 3 yourself.
 ### 3. Python dependencies
-Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The crc package is needed for performing a CRC on the incoming APRS packages. The requests package is needed for uploading the telemetry and station information data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
+Some of the packages that are used by dxlAPRS-SHUE are not part of the Python Standard Library. The crc package is needed for performing a CRC on incoming APRS packages. The requests package is needed for uploading the telemetry and station information data to the SondeHub database. The python-dateutil package is needed for handling data of the datetime module.
 
 The crc package can be installed from PyPI using pip with the following command.
 ```
@@ -43,19 +43,15 @@ The requests package can also be installed from PyPI using pip with the followin
 ```
 $ python -m pip install requests
 ```
-The python-dateutil package can also be installed from PyPI using pip with the following command.
-```
-$ python -m pip install python-dateutil
-```
 ### 4. Cloning the dxlAPRS-SHUE Repository
-Cloning the dxlAPRS-SHUE Repository requires git to be installed. Once again if you are using a Raspberry Pi with Raspberry Pi OS, you might already have git installed. If you're using a different system, you may have to install git yourself.
+Cloning the dxlAPRS-SHUE Repository requires git to be installed. Once again, if you are using a Raspberry Pi with Raspberry Pi OS, you might already have git installed. If you're using a different system, you may have to install git yourself.
 
 For cloning the dxlAPRS-SHUE Repository, use the following command.
 ```
 $ git clone https://github.com/Eshco93/dxlAPRS-SHUE.git
 ```
 You can issue this command from any directory of your system. It doesn't really matter where you put dxlAPRS-SHUE. Put it wherever you like.
-### 5. Changing parameters for udpbox
+### 5. Changing parameters for sondemod
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE uses the APRS packages that are forwarded by udpbox. Hence udpbox needs to be configured to forward the APRS packages not only to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
 
 This is done by adding another command line argument to udpbox. Adding the following command line argument will tell udpbox to forward the raw APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
