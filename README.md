@@ -54,17 +54,21 @@ You can issue this command from any directory of your system. It doesn't really 
 ### 5. Changing parameters for sondemod
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation) section, dxlAPRS-SHUE can either use the APRS packages that sondemod already sends out to various instances of udpgate4 or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this is explained in all details is the [additional information](https://github.com/Eshco93/dxlAPRS-SHUE#json-vs-aprs) section.
 
-
-
-
-
-
-As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation), dxlAPRS-SHUE uses the APRS packages that are forwarded by udpbox. Hence udpbox needs to be configured to forward the APRS packages not only to multiple instances of udpgate4, but also to dxlAPRS-SHUE.
-
-This is done by adding another command line argument to udpbox. Adding the following command line argument will tell udpbox to forward the raw APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
+In any case, however, the configuration of sondemod must be edited in order to use dxlAPRS-SHUE. This is done by adding another command line argument to sondemod. Adding the following command line argument will enable the UDP JSON output of sondemod for a specific address and port (note that `<ip>` and `<port>` are just placeholders at this point).
 ```
--l <ip>:<port>
+-J <ip>:<port>
 ```
+If you still decided to use the APRS packages instead of the UDP JSON output, adding the following command line argument will forward the APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
+```
+-r <ip>:<port>
+```
+
+
+
+
+
+
+
 Since you are most likely running dxlAPRS-SHUE on the same system as udpbox, you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)).
 
 So assuming you are just using the defaults, the command line argument that needs to be added to udpbox would look like this.
