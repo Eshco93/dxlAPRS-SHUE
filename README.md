@@ -62,26 +62,14 @@ If you still decided to use the APRS packages instead of the UDP JSON output, ad
 ```
 -r <ip>:<port>
 ```
+Since you are most likely running dxlAPRS-SHUE on the same system as sondemod, you usually just want to use the localhost (127.0.0.1) as your target address. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)).
 
+When you are using dxlAPRS then you are probably using a startup script in order to launch all the individual tools of the dxlAPRS toolchain. Hence that would be the place to add this new sondemod command line argument. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 
-
-
-
-
-
-Since you are most likely running dxlAPRS-SHUE on the same system as udpbox, you usually just want to use the localhost. Obviously you could also run both tools on different systems and use the address of the system that's running dxlAPRS-SHUE instead. The used port can be chosen relatively freely within the range of the [registered ports](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Registered_ports). But the default port used by dxlAPRS-SHUE is `18001` (See section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)).
-
-So assuming you are just using the defaults, the command line argument that needs to be added to udpbox would look like this.
+This is an example of what a sondemod command in the startup script with enabled UDP JSON output would look like.
 ```
--l 127.0.0.1:18001
-```
-When you are using dxlAPRS then you are probably using a startup script in order to launch all the individual tools of the dxlAPRS toolchain. Hence that would be the place to add this new udpbox command line argument. More information about those startup scripts can be found in the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
-
-With the new udpbox command line argument, the udpbox command in the startup script would look something like this.
-```
-# Verteilen der AXUDP Daten (UDPBOX)
-# 9101 zu radiosondy.info - 9102 zu wettersonde.net - 9999 zu APRSMAP (z.B.)
-xfce4-terminal  --minimize --title UDPBOX -e 'bash -c "udpbox -R 127.0.0.1:9001 -l 127.0.0.1:9101 -l 127.0.0.1:9102 -l 127.0.0.1:9999 -l 127.0.0.1:18001 -v"' &
+# Umwandeln der Sondendaten in AXUDP Format (SONDEMOD)
+xfce4-terminal --minimize --title SONDEMOD -e 'bash -c "sondemod -o 18000 -I $SONDECALL -r 127.0.0.1:9001 -b $INTERVALLHIGH:$INTERVALL1:$INTERVALL2:$INTERVALL3 -A $ALT1:$ALT2:$ALT3 -x /tmp/e.txt -J 127.0.0.1:18001 -T 360 -R 240 -d -p 2 -M -L 6=DFM06,7=PS15,A=DFM09,B=DFM17,C=DFM09P,D=DFM17,FF=DFMx -t $DXLPATH/sondecom.txt -v -P $LOCATOR -N $HOEHE -S $DXLPATH/"' &
 sleep 1
 ```
 ### 6. Modifying sondecom.txt
