@@ -19,7 +19,7 @@ The following diagram shows how the dxlAPRS SondeHub Uploader Extension (dxlAPRS
 
 <p align="center"><img src="https://user-images.githubusercontent.com/34800304/232325822-d8f3066b-735b-4d56-b133-304f941cc153.png" width=70% height=70%></p>
 
-dxlAPRS-SHUE uses the data that is sent out by sondemod via UDP. However, sondemod provides two different UDP streams that dxlAPRS-SHUE can use. On the one hand, dxlAPRS-SHUE can use the APRS packages that sondemod already sends out to various instances of udpgate4 (See above). On the other hand, dxlAPRS-SHUE can use the UDP JSON output that sondemod provides (recommended). Both options are equally easy to implement and only require a small adjustment of the configuration of sondemod (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox)).
+dxlAPRS-SHUE uses the data that is sent out by sondemod via UDP. However, sondemod provides two different UDP streams that dxlAPRS-SHUE can use. On the one hand, dxlAPRS-SHUE can use the APRS packages that sondemod already sends out to various instances of udpgate4 (See above). On the other hand, dxlAPRS-SHUE can use the UDP JSON output that sondemod provides (recommended). Both options are equally easy to implement and only require a small adjustment of the configuration of sondemod (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod)).
 
 The internal structure of dxlAPRS-SHUE is fairly simple, which can be seen in the next diagram.
 
@@ -95,7 +95,7 @@ Argument|Description|Default|Range
 `-j`|Logging level for the log messages written to the log file.<br /><br />Level `1`: Write errors<br />Level `2`: Write warnings<br />Level `3`: Write processing information<br />Level `4`: Write debug messages<br />Level `5`: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels.<br />This argument has no effect if writing the log file is disabled (See argument `-k`).|`3`|`1` - `5`
 `-t`|Runtime of the program in seconds (`0` for infinite runtime).<br />Usually the program runs indefinitely.|`0`|>=`0`
 `-a`|Address for the UDP socket (usually `127.0.0.1`).|`127.0.0.1`|-
-`-p`|Port for the UDP socket (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox)).|`18001`|`1024` - `65353`
+`-p`|Port for the UDP socket (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod)).|`18001`|`1024` - `65353`
 `-d`|Path for the files written by the program.|`/dxlAPRS-SHUE/log`|-
 `-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes).<br />All packages in one file with one line for each package.|`0`|`0` - `1`
 `-w`|Write the telemetry data to CSV files (`0` = no / `1` = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|`0`|`0` - `1`
@@ -127,7 +127,7 @@ If dxlAPRS-SHUE is launched with the command line argument `-h`, a help message 
 python dxlAPRS-SHUE.py -h
 ```
 ### 8. Adding dxlAPRS-SHUE to your startup script
-You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [5.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#5-changing-parameters-for-udpbox) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue))
+You might want to add dxlAPRS-SHUE to the startup script already mentioned in section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod) in order to launch it together with all the other dxlAPRS tools. Add the following line to the bottom of your startup script in order to launch dxlAPRS-SHUE right after lanuching all the other dxlAPRS tools (note that `<command>` is just a placeholder for the command as described in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue))
 ```
 # dxlAPRS SondeHub Uploader Extension
 xfce4-terminal --minimize --title dxlAPRS-SHUE -e '<command>' &
