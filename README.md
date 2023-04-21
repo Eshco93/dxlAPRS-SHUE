@@ -99,7 +99,7 @@ Argument|Description|Default|Range
 `-j`|Logging level for the log messages written to the log file.<br /><br />Level `1`: Write errors<br />Level `2`: Write warnings<br />Level `3`: Write processing information<br />Level `4`: Write debug messages<br />Level `5`: Write detailed debug messages<br /><br />Each level also contains the messages of all lower levels.<br />This argument has no effect if writing the log file is disabled (See argument `-k`).|`3`|`1` - `5`
 `-t`|Runtime of the program in seconds (`0` for infinite runtime).<br />Usually the program runs indefinitely.|`0`|>=`0`
 `-a`|Address for the UDP socket (usually `127.0.0.1`).|`127.0.0.1`|-
-`-p`|Port for the UDP socket (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod)).|`18001`|`1024` - `65353`
+`-p`|Port for the UDP socket<br />(See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod))|`18001`|`1024` - `65353`
 `-y`|Mode of the program (`0` = auto-select / `1` = JSON / `2` = APRS).<br />(See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod))|`0`|`0` - `2`
 `-d`|Path for the files written by the program.|`/dxlAPRS-SHUE/log`|-
 `-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes).<br />All packages in one file with one line for each package.|`0`|`0` - `1`
