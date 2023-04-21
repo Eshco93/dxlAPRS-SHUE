@@ -77,7 +77,7 @@ xfce4-terminal --minimize --title SONDEMOD -e 'bash -c "sondemod -o 18000 -I $SO
 sleep 1
 ```
 ### 6. Modifying sondecom.txt (APRS only!)
-This step is only necessary when dxlAPRS-SHUE is using the APRS packages provided by sondemod. If you are using the UDP JSON output of sondemod, you can go directly to section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue).
+This step is only necessary when dxlAPRS-SHUE is using the APRS packages provided by sondemod. If you are using the UDP JSON output of sondemod, you can go directly to section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue)
 
 The sondecom.txt file can be found inside your dxlAPRS folder. The file is used by sondemod and defines which telemetry parameters sondemod adds to the comment section of each APRS package. When dxlAPRS-SHUE uses these packages, the comment section should include all telemetry parameters that are useful to dxlAPRS-SHUE. This includes the following telemetry parameters.
 
