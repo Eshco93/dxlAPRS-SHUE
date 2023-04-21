@@ -8,56 +8,84 @@
 # Modules
 import socket
 import queue
+import json
 import time
 
 
-# Receive APRS packages
-def udp_receive(self):
+# Receive packages
+def receive(self):
     # Create a socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((self.addr, self.port))
-    
+
     while self.running:
-        # Try to receive an APRS package
+        # Try to receive a package
         data, addr = sock.recvfrom(self.shuConfig.udp_buffersize)
-        self.loggerObj.debug('APRS package received')
-        # Store the APRS package to the aprs queue
+        self.loggerObj.debug('Package received')
+        # Store the package to the input queue
         try:
-            self.aprs_queue.put(data, False)
-            self.loggerObj.debug('APRS package put in queue')
+            self.input_queue.put(data, False)
+            self.loggerObj.debug('Package put in input queue')
         except queue.Full:
-            self.loggerObj.warning('APRS package queue full')
+            self.loggerObj.warning('Input queue full')
 
 
-# Process the received APRS packages
-def process_aprs_queue(self):
+# Process packages
+def process_input_queue(self):
     while self.running:
-        # Get package, if there are any in the aprs queue
-        aprs_package = self.aprs_queue.get()
-        self.loggerObj.debug('APRS package taken from queue')
+        # Get package, if there are any in the input queue
+        package = self.input_queue.get()
+        self.loggerObj.debug('Package taken from input queue')
         # Optionally write the raw data
         if self.writeo:
-            self.writeData.write_raw_data(self, aprs_package)
-        # Perform CRC
-        if self.crc_calculator.verify(aprs_package[:-2], aprs_package[-1] << 8 | aprs_package[-2]):
+            self.writeData.write_raw_data(self, package)
+        # Mode is set to JSON or package was determined to be JSON
+        if (self.mode == 0 or self.mode == 1) and self.utils.check_json(self, package):
+            # Package is valid JSON
+            valid = True
+            self.loggerObj.debug('Package is JSON')
+            # Parse the JSON package
+            json_telemetry = json.loads(package.decode())
+            self.loggerObj.debug('JSON package parsed (Serial: %s)', json_telemetry['id'] if 'id' in json_telemetry else 'N/A')
+            # Unify the JSON package
+            unified_telemetry = self.handleData.unify_json(self, json_telemetry)
+            self.loggerObj.debug('JSON package unified (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
+        # Mode is set to APRS or package was determined to be APRS
+        elif (self.mode == 0 or self.mode == 2) and self.crc_calculator.verify(package[:-2], package[-1] << 8 | package[-2]):
+            # Package is valid APRS
+            valid = True
+            self.loggerObj.debug('Package is APRS')
             # Parse the APRS package
-            telemetry = self.handleData.parse_aprs_package(self, aprs_package[:-2])
-            self.loggerObj.debug('APRS package parsed (Serial: %s)', telemetry['serial'] if 'serial' in telemetry else 'N/A')
-            self.loggerObj.info('Telemetry received (Serial: %s)', telemetry['serial'] if 'serial' in telemetry else 'N/A')
+            aprs_telemetry = self.handleData.parse_aprs(self, package[:-2])
+            self.loggerObj.debug('APRS package parsed (Serial: %s)', aprs_telemetry['serial'] if 'serial' in aprs_telemetry else 'N/A')
+            # Unify the APRS package
+            unified_telemetry = self.handleData.unify_aprs(self, aprs_telemetry)
+            self.loggerObj.debug('APRS package unified (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
+        # Mode is incorrectly selected or data is invalid
+        else:
+            valid = False
+            if self.mode == 0:
+                self.loggerObj.error('Package is neither valid JSON nor valid APRS')
+            elif self.mode == 1:
+                self.loggerObj.error('Package is not valid JSON')
+            elif self.mode == 2:
+                self.loggerObj.error('Package is not valid APRS')
+        if valid:
+            self.loggerObj.info('Telemetry received (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
             # Check whether the telemetry is plausible
-            telemetry = self.telemetryChecks.check_plausibility(self, telemetry)
-            self.loggerObj.debug('Plausibility checks performed (Serial: %s)', telemetry['serial'] if 'serial' in telemetry else 'N/A')
+            unified_telemetry = self.telemetryChecks.check_plausibility(self, unified_telemetry)
+            self.loggerObj.debug('Plausibility checks performed (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
             # Optionally write the telemetry
             if self.writet:
-                if 'serial' in telemetry:
-                    self.writeData.write_telemetry(self, telemetry)
+                if 'serial' in unified_telemetry:
+                    self.writeData.write_unified_telemetry(self, unified_telemetry)
                 else:
                     self.loggerObj.error('Could not write telemetry (serial missing)')
             # Check whether the mandatory telemetry for SondeHub is included
-            if self.telemetryChecks.check_mandatory(self, telemetry):
-                self.loggerObj.debug('Mandatory data check successful (Serial: %s)', telemetry['serial'])
+            if self.telemetryChecks.check_mandatory(self, unified_telemetry):
+                self.loggerObj.debug('Mandatory data check successful (Serial: %s)', unified_telemetry['serial'])
                 # Reformat the telemetry to the SondeHub telemetry format
-                reformatted_telemetry = self.handleData.reformat_telemetry(self, telemetry)
+                reformatted_telemetry = self.handleData.reformat_telemetry(self, unified_telemetry)
                 self.loggerObj.debug('Telemetry reformatted (Serial: %s)', reformatted_telemetry['serial'])
                 # Optionally write the reformatted telemetry
                 if self.writer:
@@ -69,18 +97,16 @@ def process_aprs_queue(self):
                 except queue.Full:
                     self.loggerObj.warning('Upload queue full')
             else:
-                self.loggerObj.error('Mandatory data check failed (Serial: %s)', telemetry['serial'] if 'serial' in telemetry else 'N/A')
-        else:
-            self.loggerObj.error('APRS package CRC failed')
+                self.loggerObj.error('Mandatory data check failed (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
 
 
-# Upload the telemetry packages
+# Upload the reformatted telemetry packages
 def process_upload_queue(self):
     while self.running:
         # Check whether it is time for uploading, based on the configured update rate and the last upload time
         if (time.time() - self.last_telemetry_upload) > self.telemu:
             self.loggerObj.debug('Telemetry upload')
-            # Create an empty list that will hold the telemetry packages
+            # Create an empty list that will hold the reformatted telemetry packages
             to_upload = []
             # Get all packages that are currently stored in the upload queue and append them to the previously created list
             while not self.upload_queue.empty():

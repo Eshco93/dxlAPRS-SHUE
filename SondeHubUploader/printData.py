@@ -11,24 +11,24 @@ def print_raw_data(raw_data):
     print(raw_data)
 
 
-# Print telemetry
-def print_telemetry(self, telemetry):
+# Print unified telemetry
+def print_unified_telemetry(self, unified_telemetry):
     print('Telemetry:')
-    # The telemetry parameter names are printed at a fixed length
-    # This fixed length is based on the length of the longest telemetry parameter name
+    # The unified telemetry parameter names are printed at a fixed length
+    # This fixed length is based on the length of the longest unified telemetry parameter name
     # This results in a nicely formatted and easily readable output
-    parameter_string = '{:<' + str(len(max(self.shuConfig.print_write_telemetry.keys(), key=len)) + 1) + '} {} {}'
-    # Go through all possible telemetry parameters
-    for name, (parameter, unit, conversion_function) in self.shuConfig.print_write_telemetry.items():
-        # Print all telemetry parameters that are included in 'telemetry'
-        if all(item in telemetry.keys() for item in parameter):
-            # Some printed parameters are composed or calculated from several telemetry parameters
-            # These telemetry parameters must be added to a list in order to be passed to the conversion function
-            parameter_list = []
-            for element in parameter:
-                parameter_list.append(telemetry[element])
-            # Print the telemetry parameters with their name, value and unit (optional)
-            print(parameter_string.format(name + ':', conversion_function(*parameter_list), '' if unit is None else unit))
+    # Therefore the longest unified telemetry parameter name must be found in order to compile the parameter string
+    names = []
+    for parameter in self.shuConfig.telemetry:
+        if parameter in unified_telemetry:
+            names.append(self.shuConfig.telemetry[parameter]['name'])
+    parameter_string = '{:<' + str(len(max(names, key=len)) + 1) + '} {} {}'
+    # Go through all possible unified telemetry parameters
+    for parameter in self.shuConfig.telemetry:
+        # Print all unified telemetry parameters that are included in 'unified_telemetry'
+        if parameter in unified_telemetry:
+            # Print the unified telemetry parameters with their name, value and unit (optional)
+            print(parameter_string.format(self.shuConfig.telemetry[parameter]['name'] + ':', unified_telemetry[parameter], '' if self.shuConfig.telemetry[parameter]['unit'] is None else self.shuConfig.telemetry[parameter]['unit']))
 
 
 # Print reformatted telemetry
@@ -37,8 +37,9 @@ def print_reformatted_telemetry(self, reformatted_telemetry):
     # The reformatted telemetry parameter names are printed at a fixed length
     # This fixed length is based on the length of the longest reformatted telemetry parameter name
     # This results in a nicely formatted and easily readable output
+    # Therefore the longest reformatted telemetry parameter name must be found in order to compile the parameter string
     parameter_string = '{:<' + str(len(max(reformatted_telemetry.keys(), key=len)) + 1) + '} {} {}'
     # Go through all reformatted telemetry parameters existing in 'reformatted_telemetry'
     for name, unit in reformatted_telemetry.items():
         # Print the reformatted telemetry parameters with their name, value and unit (optional)
-        print(parameter_string.format(name + ':', unit, '' if self.shuConfig.write_reformatted[name] is None else self.shuConfig.write_reformatted[name]))
+        print(parameter_string.format(name + ':', unit, '' if self.shuConfig.reformatted_telemetry[name] is None else self.shuConfig.reformatted_telemetry[name]))

@@ -6,7 +6,6 @@
 
 
 # Modules
-import logging
 import threading
 import queue
 
@@ -39,32 +38,35 @@ class SondeHubUploader:
         # Used to break out of while-loops when the SondeHubUploader is terminated
         self.running = True
         
-        # Queue for storing the received APRS packages after receiving and before parsing
-        self.aprs_queue = queue.Queue(self.qaprs)
-        # Queue for storing the telemetry packages after parsing and before uploading
+        # Queue for storing the incoming packages before processing
+        self.input_queue = queue.Queue(self.qin)
+        # Queue for storing telemetry packages before uploading
         self.upload_queue = queue.Queue(self.qupl)
+
+        # Set the source address to not mandatory if a user callsign was provided
+        self.shuConfig.telemetry['source_address']['mandatory'] = False
         
         # Stores the last time the station was uploaded
         self.last_station_upload = 0
-        # Stores the last time the telemetry was uploaded
+        # Stores the last time telemetry was uploaded
         self.last_telemetry_upload = 0
         
-        # Create a thread for receiving the APRS packages
-        self.udp_receive_thread = threading.Thread(target=self.threads.udp_receive, args=(self,))
-        self.udp_receive_thread.start()
+        # Create a thread for receiving packages
+        self.receive_thread = threading.Thread(target=self.threads.receive, args=(self,))
+        self.receive_thread.start()
         self.loggerObj.debug('udp_receive thread started')
         
-        # Create a thread for processing the received APRS packages
-        self.process_aprs_queue_thread = threading.Thread(target=self.threads.process_aprs_queue, args=(self,))
-        self.process_aprs_queue_thread.start()
-        self.loggerObj.debug('process_aprs_queue thread started')
+        # Create a thread for processing packages
+        self.process_input_queue_thread = threading.Thread(target=self.threads.process_input_queue, args=(self,))
+        self.process_input_queue_thread.start()
+        self.loggerObj.debug('process_input_queue thread started')
 
         # Create a thread for uploading the station
         self.upload_station_thread = threading.Thread(target=self.threads.upload_station, args=(self,))
         self.upload_station_thread.start()
         self.loggerObj.debug('upload_station thread started')
         
-        # Create a thread for uploading the telemetry
+        # Create a thread for uploading telemetry
         self.process_upload_queue_thread = threading.Thread(target=self.threads.process_upload_queue, args=(self,))
         self.process_upload_queue_thread.start()
         self.loggerObj.debug('process_upload_queue thread started')
@@ -74,7 +76,7 @@ class SondeHubUploader:
         # Setting running to 'False' will cause breaking out of the while-loops in the threads
         self.running = False
         # Join the threads
-        self.udp_receive_thread.join()
-        self.process_aprs_queue_thread.join()
+        self.receive_thread.join()
+        self.process_input_queue_thread.join()
         self.upload_station_thread.join()
         self.process_upload_queue_thread.join()

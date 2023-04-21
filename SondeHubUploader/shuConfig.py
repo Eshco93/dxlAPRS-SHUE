@@ -7,9 +7,11 @@
 
 # Third-party modules
 import logging
+import datetime
 # Own modules
 import SondeHubUploader.conversions as conversions
 import SondeHubUploader.handleData as handleData
+import SondeHubUploader.telemetryChecks as telemetryChecks
 import SondeHubUploader.utils as utils
 
 
@@ -28,7 +30,7 @@ sondehub_station_url = 'https://api.v2.sondehub.org/listeners'
 
 # Software definitions
 software_name = 'dxlAPRS-SHUE'
-software_version = '1.0.2'
+software_version = '1.1.0'
 
 # Status code definitions
 status_code_ok = 200
@@ -43,174 +45,862 @@ filename_raw_data = 'rawdata'
 filename_prefix_telemetry = 't_'
 filename_prefix_reformatted_telemetry = 'r_'
 leap_seconds = 18
-reformat_position_precision = 5
+rs41_burst_timer_inactive_value = 65535
 
-
-# Parser definitions
+# APRS Parser definitions
 # Fixed position parameter definitions
-# Values: range, parse function
-parse_fixed_position = {
-    'destination_address': [slice(0, 7), lambda a: bytes(a)],
-    'source_address': [slice(7, 14), lambda a: bytes(a)],
-    'control': [14, lambda a: hex(a)],
-    'protocol_id': [15, lambda a: hex(a)],
-    'data_type': [16, lambda a: chr(a)],
-    'serial': [slice(17, 26), lambda a: a.decode('utf-8').split(' ', 1)[0]],
-    'hour': [slice(27, 29), lambda a: int(a)],
-    'minute': [slice(29, 31), lambda a: int(a)],
-    'second': [slice(31, 33), lambda a: int(a)],
-    'time_format': [33, lambda a: chr(a)],
-    'latitude_degree': [slice(34, 36), lambda a: int(a)],
-    'latitude_minute': [slice(36, 41), lambda a: handleData.parse_gmm_minute(a.decode('utf-8'))],
-    'latitude_ns': [41, lambda a: chr(a)],
-    'longitude_degree': [slice(43, 46), lambda a: int(a)],
-    'longitude_minute': [slice(46, 51), lambda a: handleData.parse_gmm_minute(a.decode('utf-8'))],
-    'longitude_we': [51, lambda a: chr(a)],
-    'course': [slice(53, 56), lambda a: int(a)],
-    'speed': [slice(57, 60), lambda a: int(a)],
-    'altitude': [slice(63, 69), lambda a: int(a)],
-    'dao_D': [70, lambda a: a],
-    'dao_A': [71, lambda a: a],
-    'dao_O': [72, lambda a: a]
+parse_aprs_fixed_position = {
+    'destination_address':
+    {
+        'range':            slice(0, 7),
+        'parse_function':   lambda a: handleData.parse_aprs_address(a)
+    },
+    'source_address':
+    {
+        'range':            slice(7, 14),
+        'parse_function':   lambda a: handleData.parse_aprs_address(a)
+    },
+    'control_field':
+    {
+        'range':            14,
+        'parse_function':   lambda a: hex(a)
+    },
+    'protocol_id':
+    {
+        'range':            15,
+        'parse_function':   lambda a: hex(a)
+    },
+    'data_type':
+    {
+        'range':            16,
+        'parse_function':   lambda a: chr(a)
+    },
+    'serial':
+    {
+        'range':            slice(17, 26),
+        'parse_function':   lambda a: a.decode('utf-8').split(' ', 1)[0]
+    },
+    'hour':
+    {
+        'range':            slice(27, 29),
+        'parse_function':   lambda a: int(a)
+    },
+    'minute':
+    {
+        'range':            slice(29, 31),
+        'parse_function':   lambda a: int(a)
+    },
+    'second':
+    {
+        'range':            slice(31, 33),
+        'parse_function':   lambda a: int(a)
+    },
+    'time_format':
+    {
+        'range':            33,
+        'parse_function':   lambda a: chr(a)
+    },
+    'latitude_degree':
+    {
+        'range':            slice(34, 36),
+        'parse_function':   lambda a: int(a)
+    },
+    'latitude_minute':
+    {
+        'range':            slice(36, 41),
+        'parse_function':   lambda a: handleData.parse_aprs_gmm_minute(a.decode('utf-8'))
+    },
+    'latitude_ns':
+    {
+        'range':            41,
+        'parse_function':   lambda a: chr(a)
+    },
+    'longitude_degree':
+    {
+        'range':            slice(43, 46),
+        'parse_function':   lambda a: int(a)
+    },
+    'longitude_minute':
+    {
+        'range':            slice(46, 51),
+        'parse_function':   lambda a: handleData.parse_aprs_gmm_minute(a.decode('utf-8'))
+    },
+    'longitude_we':
+    {
+        'range':            51,
+        'parse_function':   lambda a: chr(a)
+    },
+    'course':
+    {
+        'range':            slice(53, 56),
+        'parse_function':   lambda a: int(a)
+    },
+    'speed':
+    {
+        'range':            slice(57, 60),
+        'parse_function':   lambda a: int(a)
+    },
+    'altitude':
+    {
+        'range':            slice(63, 69),
+        'parse_function':   lambda a: int(a)
+    },
+    'dao_D':
+    {
+        'range':            70,
+        'parse_function':   lambda a: a
+    },
+    'dao_A':
+    {
+        'range':            71,
+        'parse_function':   lambda a: a
+    },
+    'dao_O':
+    {
+        'range':            72,
+        'parse_function':   lambda a: a
+    }
 }
 # Optional parameter definitions
-# Values: prefix, unit/end, parse function
-parse_optional = {
-    'clb': ['Clb=', 'm/s', lambda a: float(a)],
-    'p': ['p=', 'hPa', lambda a: float(a)],
-    't': ['t=', 'C', lambda a: float(a)],
-    'h': ['h=', '%', lambda a: float(a)],
-    'batt': ['batt=', 'V', lambda a: float(a)],
-    'calibration': ['calibration', '%', lambda a: int(a)],
-    'fp': ['fp=', 'hPa', lambda a: float(a)],
-    'og': ['OG=', 'm', lambda a: int(a)],
-    'rssi': ['rssi=', 'dB', lambda a: float(a)],
-    'tx': ['tx=', 'dBm', lambda a: int(a)],
-    'hdil': ['hdil=', 'm', lambda a: float(a)],
-    'o3': ['o3=', 'mPa', lambda a: float(a)],
-    'type': ['Type=', ' ', lambda a: a],
-    'sats': ['Sats=', ' ', lambda a: int(a)],
-    'fn': ['FN=', ' ', lambda a: int(a)],
-    'azimuth': ['azimuth=', ' ', lambda a: int(a)],
-    'elevation': ['elevation=', ' ', lambda a: float(a)],
-    'dist': ['dist=', ' ', lambda a: float(a)],
-    'dev': ['dev=', ' ', lambda a: a],
-    'ser': ['ser=', ' ', lambda a: a]
+parse_aprs_optional = {
+    'type':
+    {
+        'prefix':           'Type=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: a
+    },
+    'serial_2':
+    {
+        'prefix':           'ser=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: a
+    },
+    'gps_noise':
+    {
+        'prefix':           'hdil=',
+        'unit_end':         'm',
+        'parse_function':   lambda a: float(a)
+    },
+    'over_ground':
+    {
+        'prefix':           'OG=',
+        'unit_end':         'm',
+        'parse_function':   lambda a: int(a)
+    },
+    'azimuth':
+    {
+        'prefix':           'azimuth=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: int(a)
+    },
+    'elevation':
+    {
+        'prefix':           'elevation=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: float(a)
+    },
+    'distance':
+    {
+        'prefix':           'dist=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: float(a)
+    },
+    'climb':
+    {
+        'prefix':           'Clb=',
+        'unit_end':         'm/s',
+        'parse_function':   lambda a: float(a)
+    },
+    'temperature':
+    {
+        'prefix':           't=',
+        'unit_end':         'C',
+        'parse_function':   lambda a: float(a)
+    },
+    'pressure':
+    {
+        'prefix':           'p=',
+        'unit_end':         'hPa',
+        'parse_function':   lambda a: float(a)
+    },
+    'fake_pressure':
+    {
+        'prefix':           'fp=',
+        'unit_end':         'hPa',
+        'parse_function':   lambda a: float(a)
+    },
+    'humidity':
+    {
+        'prefix':           'h=',
+        'unit_end':         '%',
+        'parse_function':   lambda a: float(a)
+    },
+    'o3':
+    {
+        'prefix':           'o3=',
+        'unit_end':         'mPa',
+        'parse_function':   lambda a: float(a)
+    },
+    'o3_temperature':
+    {
+        'prefix':           'ti=',
+        'unit_end':         'C',
+        'parse_function':   lambda a: float(a)
+    },
+    'calibration':
+    {
+        'prefix':           'calibration',
+        'unit_end':         '%',
+        'parse_function':   lambda a: int(a)
+    },
+    'tx_power':
+    {
+        'prefix':           'tx=',
+        'unit_end':         'dBm',
+        'parse_function':   lambda a: int(a)
+    },
+    'framenumber':
+    {
+        'prefix':           'FN=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: int(a)
+    },
+    'battery':
+    {
+        'prefix':           'batt=',
+        'unit_end':         'V',
+        'parse_function':   lambda a: float(a)
+    },
+    'satellites':
+    {
+        'prefix':           'Sats=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: int(a)
+    },
+    'device':
+    {
+        'prefix':           'dev=',
+        'unit_end':         ' ',
+        'parse_function':   lambda a: a
+    },
+    'rssi':
+    {
+        'prefix':           'rssi=',
+        'unit_end':         'dB',
+        'parse_function':   lambda a: float(a)
+    }
 }
 # Optional multivalue parameter definitions
-# Values: prefix, unit/end, parse function, subparameter, subparameter parse function
-parse_optional_multivalue = {
-    'tx_past_burst': ['TxPastBurst=', ' ', lambda a: a, ['tx_past_burst_hour', 'tx_past_burst_minute', 'tx_past_burst_second'], lambda a: handleData.parse_timer(a)],
-    'powerup': ['powerup=', ' ', lambda a: a, ['powerup_hour', 'powerup_minute', 'powerup_second'], lambda a: handleData.parse_timer(a)],
-    'rx': ['rx=', ' ', lambda a: a, ['rx_f', 'rx_afc', 'rx_afc_max'], lambda a: handleData.parse_rx(a)],
-    'pump': ['Pump=', 'V', lambda a: a, ['pump_ma', 'pump_v'], lambda a: handleData.parse_pump(a)],
+parse_aprs_optional_multivalue = {
+    'pump':
+    {
+        'prefix':                       'Pump=',
+        'unit_end':                     'V',
+        'parse_function':               lambda a: a,
+        'subparameter':                 ['pump_current', 'pump_voltage'],
+        'subparameter_parse_function':  lambda a: handleData.parse_aprs_pump(a)
+    },
+    'powerup':
+    {
+        'prefix':                       'powerup=',
+        'unit_end':                     ' ',
+        'parse_function':               lambda a: a,
+        'subparameter':                 ['powerup_hour', 'powerup_minute', 'powerup_second'],
+        'subparameter_parse_function':  lambda a: handleData.parse_aprs_timer(a)
+    },
+    'tx_past_burst':
+    {
+        'prefix':                       'TxPastBurst=',
+        'unit_end':                     ' ',
+        'parse_function':               lambda a: a,
+        'subparameter':                 ['tx_past_burst_hour', 'tx_past_burst_minute', 'tx_past_burst_second'],
+        'subparameter_parse_function':  lambda a: handleData.parse_aprs_timer(a)
+    },
+    'rx':
+    {
+        'prefix':                       'rx=',
+        'unit_end':                     ' ',
+        'parse_function':               lambda a: a,
+        'subparameter':                 ['rx_frequency', 'rx_afc', 'rx_max_afc'],
+        'subparameter_parse_function':  lambda a: handleData.parse_aprs_rx(a)
+    }
 }
 # Optional special parameter definitions
-# Values: prefix, unit/end, parse function
-parse_optional_special = {
-    'f': [' ', 'MHz', lambda a: float(a)]
+parse_aprs_optional_special = {
+    'frequency':
+    {
+        'prefix':           ' ',
+        'unit_end':         'MHz',
+        'parse_function':   lambda a: float(a)
+    }
 }
 
 # Telemetry definitions
-# Values: check function, mandatory, optional, optional name, reformat function
 telemetry = {
-    'destination_address': [None, False, False, None, None],
-    'source_address': [None, False, False, None, None],
-    'control': [lambda a: True if a == hex(0x3) else False, False, False, None, None],
-    'protocol_id': [lambda a: True if a == hex(0xF0) else False, False, False, None, None],
-    'data_type': [lambda a: True if a == ';' else False, False, False, None, None],
-    'serial': [lambda a: True if len(a) >= 4 else False, ['RS41', 'RS92', 'DFM'], False, None, None],
-    'hour': [lambda a: True if a <= 23 else False, True, False, None, None],
-    'minute': [lambda a: True if a <= 59 else False, True, False, None, None],
-    'second': [lambda a: True if a <= 59 else False, True, False, None, None],
-    'time_format': [lambda a: True if a in ['z', '/', 'h'] else False, False, False, None, None],
-    'latitude_degree': [lambda a: True if a <= 180 else False, True, False, None, None],
-    'latitude_minute': [lambda a: True if a < 60 else False, True, False, None, None],
-    'latitude_ns': [lambda a: True if a in ['N', 'S'] else False, True, False, None, None],
-    'longitude_degree': [lambda a: True if a <= 180 else False, True, False, None, None],
-    'longitude_minute': [lambda a: True if a < 60 else False, True, False, None, None],
-    'longitude_we': [lambda a: True if a in ['W', 'E'] else False, True, False, None, None],
-    'course': [lambda a: True if a < 360 else False, False, True, 'heading', lambda a: float(a)],
-    'speed': [lambda a: True if conversions.knot_to_kph(a, 0) < 1000 else False, False, True, 'vel_h', lambda a: conversions.knot_to_ms(a, 1)],
-    'altitude': [lambda a: True if conversions.feet_to_meter(a, 0) < 50000 else False, True, False, None, None],
-    'dao_D': [lambda a: True if a in [ord(' '), ord('w'), ord('W')] else False, True, False, None, None],
-    'dao_A': [lambda a: True if 33 <= a <= 123 else False, True, False, None, None],
-    'dao_O': [lambda a: True if 33 <= a <= 123 else False, True, False, None, None],
-    'clb': [lambda a: True if -100 <= a <= 100 else False, False, True, 'vel_v', lambda a: float(a)],
-    'p': [lambda a: True if 0 <= a <= 2000 else False, False, True, 'pressure', lambda a: float(a)],
-    't': [lambda a: True if -100 <= a <= 100 else False, False, True, 'temp', lambda a: float(a)],
-    'h': [lambda a: True if 0 <= a <= 100 else False, False, True, 'humidity', lambda a: float(a)],
-    'batt': [lambda a: True if 0 <= a <= 20 else False, False, True, 'batt', lambda a: float(a)],
-    'calibration': [lambda a: True if 0 <= a <= 100 else False, False, False, None, None],
-    'fp': [lambda a: True if 0 <= a <= 2000 else False, False, False, None, None],
-    'og': [lambda a: True if 0 <= a <= 50000 else False, False, False, None, None],
-    'rssi': [lambda a: True if 0 <= a <= 200 else False, False, False, 'rssi', lambda a: float(a)],
-    'tx': [lambda a: True if 0 <= a <= 200 else False, False, False, None, None],
-    'hdil': [lambda a: True if 0 <= a <= 100 else False, False, False, None, None],
-    'o3': [lambda a: True if 0 <= a <= 100 else False, False, False, None, None],
-    'type': [lambda a: True if a.startswith(tuple(radiosonde.keys())) else False, True, False, None, None],
-    'sats': [lambda a: True if 0 <= a <= 30 else False, False, True, 'sats', lambda a: a],
-    'fn': [lambda a: True if 0 <= a <= 86400 else False, ['RS41', 'RS92', 'iMET', 'MEISEI'], False, None, None],
-    'azimuth': [lambda a: True if 0 <= a < 360 else False, False, False, None, None],
-    'elevation': [lambda a: True if 0 <= a <= 90 else False, False, False, None, None],
-    'dist': [lambda a: True if 0 <= a <= 1500 else False, False, False, None, None],
-    'dev': [None, False, False, None, None],
-    'ser': [lambda a: True if len(a) >= 4 else False, ['M10', 'M20', 'MRZ', 'MEISEI'], False, None, None],
-    'tx_past_burst_hour': [lambda a: True if a <= 23 else False, False, False, None, None],
-    'tx_past_burst_minute': [lambda a: True if a <= 59 else False, False, False, None, None],
-    'tx_past_burst_second': [lambda a: True if a <= 59 else False, False, False, None, None],
-    'powerup_hour': [lambda a: True if a <= 23 else False, False, False, None, None],
-    'powerup_minute': [lambda a: True if a <= 59 else False, False, False, None, None],
-    'powerup_second': [lambda a: True if a <= 59 else False, False, False, None, None],
-    'rx_f': [lambda a: True if 400000 <= a <= 406000 else False, False, True, 'frequency', lambda a: float(a / 1000)],
-    'rx_afc': [None, False, False, None, None],
-    'rx_afc_max': [None, False, False, None, None],
-    'pump_ma': [lambda a: True if 0 <= a <= 10000 else False, False, False, None, None],
-    'pump_v': [lambda a: True if 0 <= a <= 100 else False, False, False, None, None],
-    'f': [lambda a: True if 400 <= a <= 406 else False, ['iMET'], True, 'tx_frequency', lambda a: float(a)]
+    'destination_address':
+    {
+        'json_source':              None,
+        'json_conversion_function': None,
+        'aprs_source':              'destination_address',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: telemetryChecks.check_callsign_plausibility(a),
+        'name':                     'DestinationAddress',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'source_address':
+    {
+        'json_source':              'uid',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'source_address',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: telemetryChecks.check_callsign_plausibility(a),
+        'name':                     'SourceAddress',
+        'unit':                     None,
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'type':
+    {
+        'json_source':              ('type', 'ser'),
+        'json_conversion_function': lambda a, b: handleData.unify_json_type(a, b),
+        'aprs_source':              'type',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if a.startswith(tuple(radiosonde.keys())) else False,
+        'name':                     'Type',
+        'unit':                     None,
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'serial':
+    {
+        'json_source':              'id',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'serial',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if len(a) >= 4 else False,
+        'name':                     'Serial',
+        'unit':                     None,
+        'mandatory':                ['RS41', 'RS92', 'DFM'],
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'serial_2':
+    {
+        'json_source':              'ser',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'serial_2',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if len(a) >= 4 else False,
+        'name':                     'Serial2',
+        'unit':                     None,
+        'mandatory':                ['M10', 'M20', 'MRZ', 'MEISEI'],
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'date':
+    {
+        'json_source':              'date',
+        'json_conversion_function': lambda a: datetime.date(int(a[0:4]), int(a[5:7]), int(a[8:10])),
+        'aprs_source':              None,
+        'aprs_conversion_function': None,
+        'plausibility_function':    lambda a: telemetryChecks.check_date_plausibility(a, 1),
+        'name':                     'Date',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'time':
+    {
+        'json_source':              'time',
+        'json_conversion_function': lambda a: datetime.time(int(a[0:2]), int(a[3:5]), int(a[6:8])),
+        'aprs_source':              ('hour', 'minute', 'second'),
+        'aprs_conversion_function': lambda a, b, c: datetime.time(a, b, c),
+        'plausibility_function':    lambda a: telemetryChecks.check_time_plausibility(a, 60),
+        'name':                     'Time',
+        'unit':                     None,
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'leap_seconds':
+    {
+        'json_source':              'leaps',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              None,
+        'aprs_conversion_function': None,
+        'plausibility_function':    lambda a: True if 0 <= a <= 50 else False,
+        'name':                     'LeapSeconds',
+        'unit':                     's',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'latitude':
+    {
+        'json_source':              'lat',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              ('latitude_degree', 'latitude_minute', 'latitude_ns', 'dao_D', 'dao_A'),
+        'aprs_conversion_function': lambda a, b, c, d, e: conversions.gmm_to_dg(a, utils.minute_add_precision(None, b, d, e), c, 6),
+        'plausibility_function':    lambda a: True if -90 <= a <= 90 else False,
+        'name':                     'Latitude',
+        'unit':                     '°',
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        lambda a: round(a, 5)
+    },
+    'longitude':
+    {
+        'json_source':              'long',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              ('longitude_degree', 'longitude_minute', 'longitude_we', 'dao_D', 'dao_O'),
+        'aprs_conversion_function': lambda a, b, c, d, e: conversions.gmm_to_dg(a, utils.minute_add_precision(None, b, d, e), c, 5),
+        'plausibility_function':    lambda a: True if -180 <= a <= 180 else False,
+        'name':                     'Longitude',
+        'unit':                     '°',
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        lambda a: round(a, 5)
+    },
+    'gps_noise':
+    {
+        'json_source':              None,
+        'json_conversion_function': None,
+        'aprs_source':              'gps_noise',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 100 else False,
+        'name':                     'GPSNoise',
+        'unit':                     'm',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'altitude':
+    {
+        'json_source':              'alt',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'altitude',
+        'aprs_conversion_function': lambda a: conversions.feet_to_meter(a, 5),
+        'plausibility_function':    lambda a: True if a <= 50000 else False,
+        'name':                     'Altitude',
+        'unit':                     'm',
+        'mandatory':                True,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'egm_altitude':
+    {
+        'json_source':              'egmalt',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              None,
+        'aprs_conversion_function': None,
+        'plausibility_function':    lambda a: True if a <= 50000 else False,
+        'name':                     'EGMAltitude',
+        'unit':                     'm',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'over_ground':
+    {
+        'json_source':              'og',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'over_ground',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if a <= 50000 else False,
+        'name':                     'OverGround',
+        'unit':                     'm',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'azimuth':
+    {
+        'json_source':              ['ant', 'az'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'azimuth',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a < 360 else False,
+        'name':                     'Azimuth',
+        'unit':                     '°',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'elevation':
+    {
+        'json_source':              ['ant', 'el'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'elevation',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 90 else False,
+        'name':                     'Elevation',
+        'unit':                     '°',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'distance':
+    {
+        'json_source':              ['ant', 'd'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'distance',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 1500 else False,
+        'name':                     'Distance',
+        'unit':                     'km',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'climb':
+    {
+        'json_source':              'clb',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'climb',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if -100 <= a <= 100 else False,
+        'name':                     'Climb',
+        'unit':                     'm/s',
+        'mandatory':                False,
+        'optional':                 'vel_v',
+        'reformat_function':        lambda a: float(a)
+    },
+    'speed':
+    {
+        'json_source':              'spd',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'speed',
+        'aprs_conversion_function': lambda a: conversions.knot_to_kph(a, 5),
+        'plausibility_function':    lambda a: True if a <= 1000 else False,
+        'name':                     'Speed',
+        'unit':                     'kph',
+        'mandatory':                False,
+        'optional':                 'vel_h',
+        'reformat_function':        lambda a: conversions.kph_to_ms(a, 1)
+    },
+    'course':
+    {
+        'json_source':              'dir',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'course',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if a < 360 else False,
+        'name':                     'Course',
+        'unit':                     '°',
+        'mandatory':                False,
+        'optional':                 'heading',
+        'reformat_function':        lambda a: float(a)
+    },
+    'temperature':
+    {
+        'json_source':              ['ptu', 't'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'temperature',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if -100 <= a <= 100 else False,
+        'name':                     'Temperature',
+        'unit':                     '°C',
+        'mandatory':                False,
+        'optional':                 'temp',
+        'reformat_function':        lambda a: float(a)
+    },
+    'pressure':
+    {
+        'json_source':              ['ptu', 'p'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'pressure',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 2000 else False,
+        'name':                     'Pressure',
+        'unit':                     'hPa',
+        'mandatory':                False,
+        'optional':                 'pressure',
+        'reformat_function':        lambda a: float(a)
+    },
+    'fake_pressure':
+    {
+        'json_source':              None,
+        'json_conversion_function': None,
+        'aprs_source':              'fake_pressure',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 2000 else False,
+        'name':                     'FakePressure',
+        'unit':                     'hPa',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'humidity':
+    {
+        'json_source':              ['ptu', 'h'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'humidity',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 100 else False,
+        'name':                     'Humidity',
+        'unit':                     '%',
+        'mandatory':                False,
+        'optional':                 'humidity',
+        'reformat_function':        lambda a: float(a)
+    },
+    'xdata':
+    {
+        'json_source':              'xdata',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              None,
+        'aprs_conversion_function': None,
+        'plausibility_function':    lambda a: telemetryChecks.check_xdata_plausibility(a),
+        'name':                     'XDATA',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 'xdata',
+        'reformat_function':        lambda a: handleData.reformat_xdata(a)
+    },
+    'o3':
+    {
+        'json_source':              ['aux', 'o3'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'o3',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 100 else False,
+        'name':                     'o3',
+        'unit':                     'mPa',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'o3_temperature':
+    {
+        'json_source':              ['aux', 'o3tmp'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'o3_temperature',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if -100 <= a <= 100 else False,
+        'name':                     'o3Temperature',
+        'unit':                     '°C',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'pump_voltage':
+    {
+        'json_source':              ['aux', 'pumpv'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'pump_voltage',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 100 else False,
+        'name':                     'PumpVoltage',
+        'unit':                     'V',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'pump_current':
+    {
+        'json_source':              ['aux', 'pumpma'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'pump_current',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 10000 else False,
+        'name':                     'PumpCurrent',
+        'unit':                     'mA',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'calibration':
+    {
+        'json_source':              None,
+        'json_conversion_function': None,
+        'aprs_source':              'calibration',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 100 else False,
+        'name':                     'Calibration',
+        'unit':                     '%',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'frequency':
+    {
+        'json_source':              ('mhz', ['sdr', 'rx']),
+        'json_conversion_function': lambda a, b: handleData.unify_json_frequency(a, b),
+        'aprs_source':              'frequency',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 400 <= a <= 406 else False,
+        'name':                     'Frequency',
+        'unit':                     'MHz',
+        'mandatory':                ['iMET'],
+        'optional':                 'tx_frequency',
+        'reformat_function':        lambda a: float(a)
+    },
+    'tx_power':
+    {
+        'json_source':              'txpo',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'tx_power',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 200 else False,
+        'name':                     'TxPower',
+        'unit':                     'dBm',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'framenumber':
+    {
+        'json_source':              'up',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'framenumber',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 86400 else False,
+        'name':                     'Framenumber',
+        'unit':                     None,
+        'mandatory':                ['RS41', 'RS92', 'iMET', 'MEISEI'],
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'powerup':
+    {
+        'json_source':              None,
+        'json_conversion_function': None,
+        'aprs_source':              'powerup',
+        'aprs_conversion_function': lambda a: conversions.hms_to_frame(a[0], a[1], a[2], 1),
+        'plausibility_function':    lambda a: True if 0 <= a <= 86400 else False,
+        'name':                     'Powerup',
+        'unit':                     's',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'burst_timer':
+    {
+        'json_source':              ('bursttx', 'txoff'),
+        'json_conversion_function': lambda a, b: handleData.unify_json_burst_timer(a, b),
+        'aprs_source':              'tx_past_burst',
+        'aprs_conversion_function': lambda a: conversions.hms_to_frame(a[0], a[1], a[2], 1),
+        'plausibility_function':    lambda a: True if 0 <= a <= 86400 else False,
+        'name':                     'BurstTimer',
+        'unit':                     's',
+        'mandatory':                False,
+        'optional':                 'burst_timer',
+        'reformat_function':        lambda a: 65535 if a == 30600 else a
+    },
+    'battery':
+    {
+        'json_source':              'ub',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'battery',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 20 else False,
+        'name':                     'Battery',
+        'unit':                     'V',
+        'mandatory':                False,
+        'optional':                 'batt',
+        'reformat_function':        lambda a: float(a)
+    },
+    'satellites':
+    {
+        'json_source':              'sat',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'satellites',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 30 else False,
+        'name':                     'Satellites',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 'sats',
+        'reformat_function':        lambda a: a
+    },
+    'satellite_levels':
+    {
+        'json_source':              'satdb',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              None,
+        'aprs_conversion_function': None,
+        'plausibility_function':    lambda a: telemetryChecks.check_satellite_levels_plausibility(a),
+        'name':                     'SatelliteLevels',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'device':
+    {
+        'json_source':              'rxid',
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'device',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    None,
+        'name':                     'Device',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'rx_frequency':
+    {
+        'json_source':              ['sdr', 'rx'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'rx',
+        'aprs_conversion_function': lambda a: a[0] / 1000,
+        'plausibility_function':    lambda a: True if 400 <= a <= 406 else False,
+        'name':                     'RxFrequency',
+        'unit':                     'MHz',
+        'mandatory':                False,
+        'optional':                 'frequency',
+        'reformat_function':        lambda a: float(a)
+    },
+    'rx_afc':
+    {
+        'json_source':              ['sdr', 'afc'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'rx',
+        'aprs_conversion_function': lambda a: a[1],
+        'plausibility_function':    None,
+        'name':                     'RxAFC',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'rx_max_afc':
+    {
+        'json_source':              ['sdr', 'mafc'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'rx',
+        'aprs_conversion_function': lambda a: a[2],
+        'plausibility_function':    None,
+        'name':                     'RxAFCMax',
+        'unit':                     None,
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        None
+    },
+    'rssi':
+    {
+        'json_source':              ['sdr', 'rssi'],
+        'json_conversion_function': lambda a: a,
+        'aprs_source':              'rssi',
+        'aprs_conversion_function': lambda a: a,
+        'plausibility_function':    lambda a: True if 0 <= a <= 200 else False,
+        'name':                     'RSSI',
+        'unit':                     'dB',
+        'mandatory':                False,
+        'optional':                 False,
+        'reformat_function':        lambda a: a
+    }
 }
 
-# Print/Write telemetry definitions
-# Values: parameter, unit, conversion function
-print_write_telemetry = {
-    'Serial': [['serial'], None, lambda a: a],
-    'Time': [['hour', 'minute', 'second'], None, lambda a, b, c: '{:02d}:{:02d}:{:02d}'.format(a, b, c)],
-    'Latitude': [['latitude_degree', 'latitude_minute', 'latitude_ns', 'dao_D', 'dao_A'], '°', lambda a, b, c, d, e: conversions.gmm_to_dg(a, utils.minute_add_precision(None, b, d, e), c, 5)],
-    'Longitude': [['longitude_degree', 'longitude_minute', 'longitude_we', 'dao_D', 'dao_O'], '°', lambda a, b, c, d, e: conversions.gmm_to_dg(a, utils.minute_add_precision(None, b, d, e), c, 5)],
-    'Course': [['course'], '°', lambda a: a],
-    'Speed': [['speed'], 'kph', lambda a: conversions.knot_to_kph(a, 2)],
-    'Altitude': [['altitude'], 'm', lambda a: conversions.feet_to_meter(a, 2)],
-    'Climb': [['clb'], 'm/s', lambda a: a],
-    'Pressure': [['p'], 'hPa', lambda a: a],
-    'Temperature': [['t'], '°C', lambda a: a],
-    'Humidity': [['h'], '%', lambda a: a],
-    'Frequency': [['f'], 'MHz', lambda a: a],
-    'Type': [['type'], None, lambda a: a],
-    'TxPastBurst': [['tx_past_burst_hour', 'tx_past_burst_minute', 'tx_past_burst_second'], None, lambda a, b, c: '{:02d}:{:02d}:{:02d}'.format(a, b, c)],
-    'Battery': [['batt'], 'V', lambda a: a],
-    'PowerUp': [['powerup_hour', 'powerup_minute', 'powerup_second'], None, lambda a, b, c: '{:02d}:{:02d}:{:02d}'.format(a, b, c)],
-    'Calibration': [['calibration'], '%', lambda a: a],
-    'Satellites': [['sats'], None, lambda a: a],
-    'Fakehp': [['fp'], 'hPa', lambda a: a],
-    'Framenumber': [['fn'], None, lambda a: a],
-    'OverGround': [['og'], 'm', lambda a: a],
-    'RSSI': [['rssi'], 'dB', lambda a: a],
-    'TxPower': [['tx'], 'dBm', lambda a: a],
-    'GPSNoise': [['hdil'], 'm', lambda a: a],
-    'Azimuth': [['azimuth'], '°', lambda a: a],
-    'Elevation': [['elevation'], '°', lambda a: a],
-    'Distance:': [['dist'], 'km', lambda a: a],
-    'Device': [['dev'], None, lambda a: a],
-    'Serial2': [['ser'], None, lambda a: a],
-    'RxSetting': [['rx_f', 'rx_afc', 'rx_afc_max'], None, lambda a, b, c: f'{a} kHz ({b}/{c})'],
-    'o3': [['o3'], 'mPa', lambda a: a],
-    'PumpVoltage': [['pump_v'], 'V', lambda a: a],
-    'PumpCurrent': [['pump_ma'], 'mA', lambda a: a]
-}
-
-# Write reformatted telemetry definitions
-# Values: unit
-write_reformatted_telemetry = {
+# Reformatted telemetry definitions
+# Value: unit
+reformatted_telemetry = {
     'software_name': None,
     'software_version': None,
     'uploader_callsign': None,
@@ -245,14 +935,101 @@ write_reformatted_telemetry = {
 }
 
 # Radiosonde definitions
-# Values: manufacturer, type, subtype, serial, framenumber, altitude precision, ref_datetime, ref_position
 radiosonde = {
-    'RS41': ['Vaisala', 'RS41', ['RS41-SG', 'RS41-SGP', 'RS41-SGM'], ['serial', 0], 'fn', 5, 'GPS', 'GPS'],
-    'RS92': ['Vaisala', 'RS92', None, ['serial', 0], 'fn', 5, 'GPS', 'GPS'],
-    'DFM': ['Graw', 'DFM', ['DFM06', 'DFM09', 'DFM09P', 'DFM17'], ['serial', 1], 'gps', 2, 'UTC', 'GPS'],
-    'iMET': ['Intermet Systems', 'iMet-4', None, 'IMET', 'fn', 0, 'GPS', 'MSL'],
-    'M10': ['Meteomodem', 'M10', None, ['ser', 0], 'gpsleap', 2, 'UTC', 'GPS'],
-    'M20': ['Meteomodem', 'M20', None, ['ser', 0], 'gps', 2, 'GPS', 'GPS'],
-    'MRZ': ['Meteo-Radiy', 'MRZ', None, ['ser', 0], 'gps', 5, 'UTC', 'GPS'],
-    'MEISEI': ['Meisei', 'IMS100', None, ['ser', 7], 'fn', 1, 'UTC', 'GPS']
+    'RS41':
+    {
+        'manufacturer':                 'Vaisala',
+        'type':                         'RS41',
+        'subtype':                      ['RS41-SG', 'RS41-SGP', 'RS41-SGM'],
+        'serial':                       ['serial', 0],
+        'framenumber':                  'fn',
+        'altitude_precision':           5,
+        'radiosonde_time_reference':    'GPS',
+        'sondehub_time_reference':      'GPS',
+        'sondehub_position_reference':  'GPS'
+    },
+    'RS92':
+    {
+        'manufacturer':                 'Vaisala',
+        'type':                         'RS92',
+        'subtype':                      None,
+        'serial':                       ['serial', 0],
+        'framenumber':                  'fn',
+        'altitude_precision':           5,
+        'radiosonde_time_reference':    'GPS',
+        'sondehub_time_reference':      'GPS',
+        'sondehub_position_reference':  'GPS'
+    },
+    'DFM':
+    {
+        'manufacturer':                 'Graw',
+        'type':                         'DFM',
+        'subtype':                      ['DFM06', 'DFM09', 'DFM09P', 'DFM17'],
+        'serial':                       ['serial', 1],
+        'framenumber':                  'gps',
+        'altitude_precision':           2,
+        'radiosonde_time_reference':    'UTC',
+        'sondehub_time_reference':      'UTC',
+        'sondehub_position_reference':  'GPS'
+    },
+    'iMET':
+    {
+        'manufacturer':                 'Intermet Systems',
+        'type':                         'iMet-4',
+        'subtype':                      None,
+        'serial':                       'IMET',
+        'framenumber':                  'fn',
+        'altitude_precision':           0,
+        'radiosonde_time_reference':    'GPS',
+        'sondehub_time_reference':      'GPS',
+        'sondehub_position_reference':  'MSI'
+    },
+    'M10':
+    {
+        'manufacturer':                 'Meteomodem',
+        'type':                         'M10',
+        'subtype':                      None,
+        'serial':                       ['serial_2', 0],
+        'framenumber':                  'gps',
+        'altitude_precision':           2,
+        'radiosonde_time_reference':    'GPS',
+        'sondehub_time_reference':      'UTC',
+        'sondehub_position_reference':  'GPS'
+    },
+    'M20':
+    {
+        'manufacturer':                 'Meteomodem',
+        'type':                         'M20',
+        'subtype':                      None,
+        'serial':                       ['serial_2', 0],
+        'framenumber':                  'gps',
+        'altitude_precision':           2,
+        'radiosonde_time_reference':    'GPS',
+        'sondehub_time_reference':      'GPS',
+        'sondehub_position_reference':  'GPS'
+    },
+    'MRZ':
+    {
+        'manufacturer':                 'Meteo-Radiy',
+        'type':                         'MRZ',
+        'subtype':                      None,
+        'serial':                       ['serial_2', 0],
+        'framenumber':                  'gps',
+        'altitude_precision':           5,
+        'radiosonde_time_reference':    'UTC',
+        'sondehub_time_reference':      'UTC',
+        'sondehub_position_reference':  'GPS'
+    },
+    'MEISEI':
+    {
+        'manufacturer':                 'Meisei',
+        'type':                         'IMS100',
+        'subtype':                      None,
+        'serial':                       ['serial_2', 7],
+        'framenumber':                  'fn',
+        'altitude_precision':           1,
+        'radiosonde_time_reference':    'UTC',
+        'sondehub_time_reference':      'UTC',
+        'sondehub_position_reference':  'GPS'
+    }
 }

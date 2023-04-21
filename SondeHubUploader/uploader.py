@@ -68,11 +68,11 @@ def upload_station(self):
 
 
 # Upload telemetry to SondeHub
-def upload_telemetry(self, reformatted_telemetry):
+def upload_telemetry(self, telemetry):
     # Compress the telemetry
     try:
         start_time = time.time()
-        json_telemetry = json.dumps(reformatted_telemetry).encode('utf-8')
+        json_telemetry = json.dumps(telemetry).encode('utf-8')
         compressed_payload = gzip.compress(json_telemetry)
     except Exception:
         self.loggerObj.error('Error serialising and compressing telemetry list')
@@ -107,7 +107,7 @@ def upload_telemetry(self, reformatted_telemetry):
         if req.status_code == self.shuConfig.status_code_ok:
             upload_time = time.time() - start_time
             upload_success = True
-            self.loggerObj.info('{:d} telemetry packages successfully uploaded (Duration: {:.2f} ms)'.format(len(reformatted_telemetry), upload_time * 1000))
+            self.loggerObj.info('{:d} telemetry packages successfully uploaded (Duration: {:.2f} ms)'.format(len(telemetry), upload_time * 1000))
             break
         # All other status codes indicate some kind of error
         elif req.status_code == self.shuConfig.status_code_server_error:
