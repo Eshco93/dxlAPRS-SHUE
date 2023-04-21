@@ -77,7 +77,7 @@ xfce4-terminal --minimize --title SONDEMOD -e 'bash -c "sondemod -o 18000 -I $SO
 sleep 1
 ```
 ### 6. Modifying sondecom.txt (APRS only!)
-This step is only necessary when dxlAPRS-SHUE is using the APRS packages provided by sondemod. If you are using the UDP JSON output of sondemod, you can go directly to section [7](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue).
+This step is only necessary when dxlAPRS-SHUE is using the APRS packages provided by sondemod. If you are using the UDP JSON output of sondemod, you can go directly to section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue).
 
 The sondecom.txt file can be found inside your dxlAPRS folder. The file is used by sondemod and defines which telemetry parameters sondemod adds to the comment section of each APRS package. When dxlAPRS-SHUE uses these packages, the comment section should include all telemetry parameters that are useful to dxlAPRS-SHUE. This includes the following telemetry parameters.
 
@@ -100,7 +100,7 @@ Argument|Description|Default|Range
 `-t`|Runtime of the program in seconds (`0` for infinite runtime).<br />Usually the program runs indefinitely.|`0`|>=`0`
 `-a`|Address for the UDP socket (usually `127.0.0.1`).|`127.0.0.1`|-
 `-p`|Port for the UDP socket (See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod)).|`18001`|`1024` - `65353`
-`-y`|Mode of the program (`0` = auto-select / `1` = JSON / `2` = APRS).|`0`|`1024` - `65353`
+`-y`|Mode of the program (`0` = auto-select / `1` = JSON / `2` = APRS).|`0`|`0` - `2`
 `-d`|Path for the files written by the program.|`/dxlAPRS-SHUE/log`|-
 `-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes).<br />All packages in one file with one line for each package.|`0`|`0` - `1`
 `-w`|Write the telemetry data to CSV files (`0` = no / `1` = yes).<br />One CSV file for each radiosonde, named by it's serial with with `t_` as a prefix.|`0`|`0` - `1`
@@ -153,7 +153,7 @@ killall -9 getalmd rtl_tcp sdrtst sondeudp sondemod udpbox udpgate4 dxlAPRS-SHUE
 ```
 ## Additional information
 ### JSON vs. APRS
-As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation) section and in section [5](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod), dxlAPRS-SHUE can either use the APRS packages that sondemod sends out or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this lies in a fundamental difference between APRS databases, like radiosondy.info and wettersonde.net, and SondeHub.
+As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation) section and in section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod), dxlAPRS-SHUE can either use the APRS packages that sondemod sends out or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this lies in a fundamental difference between APRS databases, like radiosondy.info and wettersonde.net, and SondeHub.
 
 For the APRS databases, the telemetry frames are encapsulated in APRS packages directly after receipt and immediately transmitted to the respective databases. Each telemetry frame is encapsulated and transmitted individually. This method is very inefficient and leads to large amounts of data to be transmitted. For this reason, usually not every single received telemetry frame is actually transmitted via APRS. Instead, fixed transmission intervals are used, in each of which a single telemetry frame is transmitted. All untransmitted telemetry frames are simply discarded. This is done to keep traffic to the APRS databases at a manageable level. For dxlAPRS, the transmission intervals are defined in the sondeconfig.txt file that can be found inside your dxlAPRS folder. If you need more information on how to edit the sondeconfig.txt file, I suggest that you take a look at the [tutorial](https://www.dl1nux.de/wettersonden-rx-mit-dxlaprs/) by Attila Kocis (DL1NUX).
 
