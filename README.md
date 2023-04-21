@@ -54,10 +54,14 @@ You can issue this command from any directory of your system. It doesn't really 
 ### 5. Changing parameters for sondemod
 As mentioned in the [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation) section, dxlAPRS-SHUE can either use the APRS packages that sondemod already sends out to various instances of udpgate4 or it can use the UDP JSON output that sondemod provides. The second option is the recommended one. The reason for this is explained in all details is the [additional information](https://github.com/Eshco93/dxlAPRS-SHUE#json-vs-aprs) section.
 
-In any case, however, the configuration of sondemod must be edited in order to use dxlAPRS-SHUE. This is done by adding another command line argument to sondemod. Adding the following command line argument will enable the UDP JSON output of sondemod for a specific address and port (note that `<ip>` and `<port>` are just placeholders at this point).
+In any case, however, the configuration of sondemod must be edited in order to use dxlAPRS-SHUE. This is done by adding another command line argument to sondemod.
+
+Adding the following command line argument will enable the UDP JSON output of sondemod for a specific address and port (note that `<ip>` and `<port>` are just placeholders at this point).
 ```
 -J <ip>:<port>
 ```
+Please note that the UDP JSON output was just recently added to sondemod. If you are using an older version of sondemod, you might not have that option. In that case you might want to download the [current source files](http://oe5dxl.hamspirit.at:8025/aprs/c/) and built the most recent version of sondemod yourself.
+
 If you still decided to use the APRS packages instead of the UDP JSON output, adding the following command line argument will forward the APRS packages to another address and port (note that `<ip>` and `<port>` are just placeholders at this point).
 ```
 -r <ip>:<port>
