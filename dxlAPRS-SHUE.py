@@ -41,7 +41,7 @@ if __name__ == '__main__':
         # Print warnings for all invalid parameters
         printStartup.print_warnings(checked_parameters)
         # Check whether any parameter was invalid
-        if any(not element for element in checked_parameters.values()):
+        if raw_parameters != checked_parameters:
             # Print an empty line for better readability
             print()
 

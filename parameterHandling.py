@@ -19,12 +19,12 @@ def parse_arguments():
         description='description: Accepts APRS packages from dxlAPRS and uploads the radiosonde telemetry to SondeHub',
         formatter_class=make_wide(argparse.HelpFormatter, 1000, 1000))
     # Add all arguments based on the configuration parameters
-    for parameter, (full_name, _type, default, positional_argument, description, check_function, required) in mainConfig.configuration_parameters.items():
-        argumentParser.add_argument('-' + positional_argument,
+    for parameter in mainConfig.configuration_parameters:
+        argumentParser.add_argument('-' + mainConfig.configuration_parameters[parameter]['positional_argument'],
                                     '--' + parameter,
-                                    default=default,
-                                    help=description + ' (Default: ' + str(default) + ')',
-                                    required=required
+                                    default=mainConfig.configuration_parameters[parameter]['default'],
+                                    help=mainConfig.configuration_parameters[parameter]['description'] + ' (Default: ' + str(mainConfig.configuration_parameters[parameter]['default']) + ')',
+                                    required=mainConfig.configuration_parameters[parameter]['required']
                                     )
     return vars(argumentParser.parse_args())
 
@@ -41,13 +41,14 @@ def make_wide(formatter, width, height):
     except TypeError:
         return formatter
 
+
 # Perform validity checks on all configuration parameters
 def perform_checks(parameters):
     for key, value in parameters.items():
         # Validity checks are only carried out on configuration parameters that are different from the default
-        if parameters[key] != mainConfig.configuration_parameters[key][2]:
+        if parameters[key] != mainConfig.configuration_parameters[key]['default']:
             # The validity check functions are saved as lambda functions in the 'configuration_parameters' dictionary
-            if not mainConfig.configuration_parameters[key][5](parameters[key]):
+            if not mainConfig.configuration_parameters[key]['check_function'](parameters[key]):
                 # If a configuration parameter was deemed invalid, it is set to 'False'
                 parameters[key] = False
     return parameters
@@ -58,7 +59,7 @@ def load_defaults(parameters):
     for key, value in parameters.items():
         # An invalid configuration parameter has 'False' assigned to it by the previous validity checks
         if not parameters[key]:
-            parameters[key] = mainConfig.configuration_parameters[key][2]
+            parameters[key] = mainConfig.configuration_parameters[key]['default']
     return parameters
 
 
@@ -70,6 +71,6 @@ def cast(parameters):
             parameters[key] = [float(element) for element in value.split(',')]
         else:
             # All integer configuration parameters are cast to 'int'
-            if mainConfig.configuration_parameters[key][1] == int and type(parameters[key]) != mainConfig.configuration_parameters[key][1]:
+            if mainConfig.configuration_parameters[key]['type'] == int and type(parameters[key]) != mainConfig.configuration_parameters[key]['type']:
                 parameters[key] = int(value)
     return parameters

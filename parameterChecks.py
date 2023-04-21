@@ -31,7 +31,7 @@ def check_user_callsign(user_callsign, min_length, max_length):
     # The user callsign has a minimum and a maximum length (generic definition)
     if min_length <= len(user_callsign) <= max_length:
         # All characters of the user callsign must be in either of the allowed character lists
-        if all(c in (capital_letters + lowercase_letters + numbers + special_characters) for c in user_callsign):
+        if all(characters in (capital_letters + lowercase_letters + numbers + special_characters) for characters in user_callsign):
             return True
     return False
 
@@ -41,7 +41,7 @@ def check_user_position(user_position, min_altitude, max_altitude):
     try:
         # The user position is split because the individual values are separated by commas
         # The individual values are latitude, longitude and altitude
-        user_position = [float(x) for x in user_position.split(',')]
+        user_position = [float(value) for value in user_position.split(',')]
         # The user position must have 3 elements
         # Latitude and longitude must be within a certain range
         # Altitude must be within a certain range (generic definition)
@@ -60,11 +60,11 @@ def check_user_position(user_position, min_altitude, max_altitude):
 def check_required(casted_parameters):
     result = True
     # Go through all configuration parameters
-    for parameter, (full_name, _type, default, positional_argument, description, check_function, required) in mainConfig.configuration_parameters.items():
+    for parameter in mainConfig.configuration_parameters:
         # Check whether a configuration parameter is required
-        if required:
+        if mainConfig.configuration_parameters[parameter]['required']:
             # Check whether the configuration parameter still has the default value
-            if casted_parameters[parameter] == default:
-                print(f'Error: The configuration parameter {full_name} that you provided is invalid')
+            if casted_parameters[parameter] == mainConfig.configuration_parameters[parameter]['default']:
+                print(f'Error: The configuration parameter {mainConfig.configuration_parameters[parameter]["full_name"]} that you provided is invalid')
                 result = False
     return result
