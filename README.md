@@ -116,7 +116,7 @@ Argument|Description|Default|Range
 `-r`|Telemetry data update rate in seconds<br />(See [theory of operation](https://github.com/Eshco93/dxlAPRS-SHUE#theory-of-operation))|`30`|`1` - `600`
 `-o`|Upload timeout for telemetry data and radiosonde receiver station information in seconds|`20`|`1` - `60`
 `-e`|Max. number of upload retries for telemetry data and radiosonde receiver station information|`5`|`0` - `60`
-`-b`|List of all radiosondes enabled for upload<br />Separated by commas|`5`|`0` - `60`
+`-b`|List of all radiosondes enabled for upload<br />Separated by commas<br />By default upload for all radiosondes is enabled|`RS41,RS92,DFM,iMET,M10,M20,MRZ,MEISEI`|-
 
 Here is an example of what your command for launching dxlAPRS-SHUE could look like.
 ```
