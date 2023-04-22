@@ -120,7 +120,7 @@ Argument|Description|Default|Range
 
 Here is an example of what your command for launching dxlAPRS-SHUE could look like.
 ```
-python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -y 0 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5
+python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -y 0 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5 -b RS41,RS92,DFM,iMET,M10,M20,MRZ,MEISEI
 ```
 Though, you don't have to configure every single parameter of dxlAPRS-SHUE. If you want to leave certain parameters at their default values, you don't have to specify them explicitly. The default value is loaded for each parameter that is not explicitly specified. The only parameters that are mandatory are `-l` and `-u` (See table above).
 
@@ -141,7 +141,7 @@ xfce4-terminal --minimize --title dxlAPRS-SHUE -e '<command>' &
 This is what the entire line for the startup script, including the command described in section [7.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#7-running-dxlaprs-shue), would look like.
 ```
 # dxlAPRS SondeHub Uploader Extension
-xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -y 0 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5' &
+xfce4-terminal --minimize --title dxlAPRS-SHUE -e 'python dxlAPRS-SHUE.py -i 3 -j 3 -t 0 -a 127.0.0.1 -p 18001 -y 0 -d /home/pi/dxlAPRS-SHUE/log -s 0 -w 0 -z 0 -k 1 -q 20 -f 200 -c S0MECALL -l 48.06339,11.52943,5 -v "1/4 wave monopole" -u someones@mail.com -g 6 -r 30 -o 20 -e 5 -b RS41,RS92,DFM,iMET,M10,M20,MRZ,MEISEI' &
 ```
 ### 9. Adding dxlAPRS-SHUE to your stop script
 If you added dxlAPRS-SHUE to your startup script as explained in section [8.](https://github.com/Eshco93/dxlAPRS-SHUE/blob/main/README.md#8-adding-dxlaprs-shue-to-your-startup-script), you'll also want to add it to your stop script in order to stop it together with all the individual tools of the dxlAPRS toolchain. The stop script goes by the name `sondestop.sh` and can be found inside your dxlAPRS folder.
