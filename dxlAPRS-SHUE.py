@@ -32,7 +32,7 @@ if __name__ == '__main__':
     # Cast all the configuration parameters to the needed datatypes
     casted_parameters = parameterHandling.cast(copy.deepcopy(defaulted_parameters))
 
-    # Check if all required configuration parameters were provided
+    # Check whether all required configuration parameters were provided
     if parameterChecks.check_required(casted_parameters):
         # Print a prolog message
         printStartup.print_prolog(casted_parameters)

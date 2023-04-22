@@ -223,6 +223,16 @@ configuration_parameters = {
         'description':          'Upload retries for SondeHub',
         'check_function':       lambda a: str(a).isdigit() and 1 <= int(a) <= 60,
         'required':             False
+    },
+    'sonde':
+    {
+        'full_name':            'Enabled Radiosondes',
+        'type':                 str,
+        'default':              'RS41,RS92,DFM,iMET,M10,M20,MRZ,MEISEI',
+        'positional_argument':  'b',
+        'description':          'Radiosondes enabled for upload',
+        'check_function':       lambda a: parameterChecks.check_enabled_radiosondes(a),
+        'required':             False
     }
 }
 

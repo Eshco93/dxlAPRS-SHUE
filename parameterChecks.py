@@ -57,6 +57,19 @@ def check_user_position(user_position, min_altitude, max_altitude):
         return False
 
 
+# Check whether the list of enabled radiosondes is valid
+def check_enabled_radiosondes(enabled_radiosondes):
+    # Split the provided string of enabled radiosondes
+    enabled_radiosondes = enabled_radiosondes.split(',')
+    # Split the string of all radiosondes as well
+    all_radiosondes = mainConfig.configuration_parameters['sonde']['default'].split(',')
+    # Check whether all enabled radiosondes are contained within the list of all radiosondes
+    if all(item in all_radiosondes for item in enabled_radiosondes):
+        return True
+    return False
+
+
+# Check whether all required configuration parameters were provided
 def check_required(casted_parameters):
     result = True
     # Go through all configuration parameters
