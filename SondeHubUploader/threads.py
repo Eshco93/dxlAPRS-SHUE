@@ -40,7 +40,7 @@ def process_input_queue(self):
         if self.writeo:
             self.writeData.write_raw_data(self, package)
         # Mode is set to JSON or package was determined to be JSON
-        if (self.mode == 0 or self.mode == 1) and self.utils.check_json(self, package):
+        if (self.mode == 0 or self.mode == 1) and self.utils.check_json(package):
             # Package is valid JSON
             valid = True
             self.loggerObj.debug('Package is JSON')
@@ -90,12 +90,23 @@ def process_input_queue(self):
                 # Optionally write the reformatted telemetry
                 if self.writer:
                     self.writeData.write_reformatted_telemetry(self, reformatted_telemetry)
-                # Store the reformatted telemetry to the upload queue
-                try:
-                    self.upload_queue.put(reformatted_telemetry, False)
-                    self.loggerObj.debug('Reformatted telemetry put in queue (Serial: %s)', reformatted_telemetry['serial'])
-                except queue.Full:
-                    self.loggerObj.warning('Upload queue full')
+                # Go through all possible radiosonde types
+                for name in self.shuConfig.radiosonde:
+                    # The radiosonde type is compared
+                    if unified_telemetry['type'].startswith(name):
+                        # Check whether uploading for this radiosonde is enabled
+                        if self.shuConfig.radiosonde[name]['enabled']:
+                            self.loggerObj.debug('Uploading for radiosonde type %s is enabled', name)
+                            # Store the reformatted telemetry to the upload queue
+                            try:
+                                self.upload_queue.put(reformatted_telemetry, False)
+                                self.loggerObj.debug('Reformatted telemetry put in queue (Serial: %s)', reformatted_telemetry['serial'])
+                            except queue.Full:
+                                self.loggerObj.warning('Upload queue full')
+                        else:
+                            self.loggerObj.warning('Uploading for radiosonde type %s is disabled', name)
+                        # Break out of for-loop after the first match because only a single match is expected
+                        break
             else:
                 self.loggerObj.error('Mandatory data check failed (Serial: %s)', unified_telemetry['serial'] if 'serial' in unified_telemetry else 'N/A')
 

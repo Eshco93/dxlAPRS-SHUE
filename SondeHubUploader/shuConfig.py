@@ -30,7 +30,7 @@ sondehub_station_url = 'https://api.v2.sondehub.org/listeners'
 
 # Software definitions
 software_name = 'dxlAPRS-SHUE'
-software_version = '1.1.0'
+software_version = '1.1.1'
 
 # Status code definitions
 status_code_ok = 200
@@ -946,7 +946,8 @@ radiosonde = {
         'altitude_precision':           5,
         'radiosonde_time_reference':    'GPS',
         'sondehub_time_reference':      'GPS',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'RS92':
     {
@@ -958,7 +959,8 @@ radiosonde = {
         'altitude_precision':           5,
         'radiosonde_time_reference':    'GPS',
         'sondehub_time_reference':      'GPS',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'DFM':
     {
@@ -970,7 +972,8 @@ radiosonde = {
         'altitude_precision':           2,
         'radiosonde_time_reference':    'UTC',
         'sondehub_time_reference':      'UTC',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'iMET':
     {
@@ -982,7 +985,8 @@ radiosonde = {
         'altitude_precision':           0,
         'radiosonde_time_reference':    'GPS',
         'sondehub_time_reference':      'GPS',
-        'sondehub_position_reference':  'MSI'
+        'sondehub_position_reference':  'MSI',
+        'enabled':                      True
     },
     'M10':
     {
@@ -994,7 +998,8 @@ radiosonde = {
         'altitude_precision':           2,
         'radiosonde_time_reference':    'GPS',
         'sondehub_time_reference':      'UTC',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'M20':
     {
@@ -1006,7 +1011,8 @@ radiosonde = {
         'altitude_precision':           2,
         'radiosonde_time_reference':    'GPS',
         'sondehub_time_reference':      'GPS',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'MRZ':
     {
@@ -1018,7 +1024,8 @@ radiosonde = {
         'altitude_precision':           5,
         'radiosonde_time_reference':    'UTC',
         'sondehub_time_reference':      'UTC',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     },
     'MEISEI':
     {
@@ -1030,6 +1037,7 @@ radiosonde = {
         'altitude_precision':           1,
         'radiosonde_time_reference':    'UTC',
         'sondehub_time_reference':      'UTC',
-        'sondehub_position_reference':  'GPS'
+        'sondehub_position_reference':  'GPS',
+        'enabled':                      True
     }
 }

@@ -50,6 +50,9 @@ class SondeHubUploader:
         self.last_station_upload = 0
         # Stores the last time telemetry was uploaded
         self.last_telemetry_upload = 0
+
+        # Disable upload for all radiosondes that were not enabled
+        self.utils.disable_radiosondes(self, self.sonde)
         
         # Create a thread for receiving packages
         self.receive_thread = threading.Thread(target=self.threads.receive, args=(self,))

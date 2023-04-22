@@ -402,6 +402,7 @@ def reformat_telemetry(self, unified_telemetry):
             # ref_datetime and ref_position can be transferred directly
             reformatted_telemetry['ref_datetime'] = self.shuConfig.radiosonde[name]['sondehub_time_reference']
             reformatted_telemetry['ref_position'] = self.shuConfig.radiosonde[name]['sondehub_position_reference']
+            # Break out of for-loop after the first match because only a single match is expected
             break
 
     # Thirdly, mandatory non-radiosonde-specific reformatted telemetry parameters are added

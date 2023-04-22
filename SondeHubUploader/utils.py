@@ -10,8 +10,19 @@ import datetime
 import hashlib
 
 
+# Disable upload for all radiosondes that were not enabled
+def disable_radiosondes(self, enabled_radiosondes):
+    # Go through all possible radiosonde types
+    for name in self.shuConfig.radiosonde:
+        # Check whether the name of the radiosonde is within the list of enabled radiosondes
+        if name not in enabled_radiosondes.split(','):
+            # Disable uploading for a radiosonde that is not within the list of enabled radiosondes
+            self.shuConfig.radiosonde[name]['enabled'] = False
+    return False
+
+
 # Check whether data is valid JSON data
-def check_json(self, data):
+def check_json(data):
     # Checking whether JSON data is valid is relatively easy by just trying to decode it
     try:
         json.loads(data.decode())

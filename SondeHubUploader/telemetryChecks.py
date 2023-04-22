@@ -62,8 +62,15 @@ def check_time_plausibility(time, difference_seconds):
     lower_threshold = (datetime.datetime.utcnow() - datetime.timedelta(seconds=difference_seconds)).time()
     upper_threshold = (datetime.datetime.utcnow() + datetime.timedelta(seconds=difference_seconds)).time()
 
-    if lower_threshold <= time <= upper_threshold:
-        return True
+    # Check whether a rollover exists within the range
+    if lower_threshold < upper_threshold:
+        # When no rollover exists, the time must be within the range
+        if lower_threshold <= time <= upper_threshold:
+            return True
+    else:
+        # If a rollover exists, the time must be greater than the lower threshold or smaller than the upper threshold
+        if time > lower_threshold or time < upper_threshold:
+            return True
     return False
 
 
