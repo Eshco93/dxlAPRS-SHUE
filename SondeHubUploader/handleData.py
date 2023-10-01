@@ -308,14 +308,20 @@ def reformat_telemetry(self, unified_telemetry):
     # Second, mandatory radiosonde-specific reformatted telemetry parameters are added
     # Go through all possible radiosonde types
     for name in self.shuConfig.radiosonde:
-        # The radiosonde type is compared
-        if unified_telemetry['type'].startswith(name):
+        # The radiosonde type/subtype is compared in order to find a match
+        if unified_telemetry['type'] == name or\
+                (self.shuConfig.radiosonde[name]['subtype'] is not None and unified_telemetry['type'] in self.shuConfig.radiosonde[name]['subtype']):
             # manufacturer and type can be transferred directly
             reformatted_telemetry['manufacturer'] = self.shuConfig.radiosonde[name]['manufacturer']
-            reformatted_telemetry['type'] = self.shuConfig.radiosonde[name]['type']
-            # A subtype might be present for some radiosondes
-            if self.shuConfig.radiosonde[name]['subtype'] is not None and unified_telemetry['type'] in self.shuConfig.radiosonde[name]['subtype']:
+            # Check whether the provided type matches the type
+            if unified_telemetry['type'] == self.shuConfig.radiosonde[name]['type']:
+                # In that case, this is the only type available (no subtype)
+                reformatted_telemetry['type'] = unified_telemetry['type']
+            # In any other case the provided type matches the subtype
+            else:
+                # In that case, the subtype is set accordingly and the type is taken from the radiosonde table
                 reformatted_telemetry['subtype'] = unified_telemetry['type']
+                reformatted_telemetry['type'] = self.shuConfig.radiosonde[name]['type']
             # For IMET radiosondes a unique serial must be calculated (based on the convention of SondeHub)
             if self.shuConfig.radiosonde[name]['serial'] == 'IMET':
                 # The date provided by the radiosonde is used (if it is available)
@@ -337,9 +343,15 @@ def reformat_telemetry(self, unified_telemetry):
             # For all other radiosondes, the serial can be transferred directly
             else:
                 serial = unified_telemetry[self.shuConfig.radiosonde[name]['serial'][0]][self.shuConfig.radiosonde[name]['serial'][1]:]
-                # For M10 radiosondes, the serial provided by dxlAPRS is missing some dashes
+                # For M10 radiosondes, the serial provided by dxlAPRS might be faulty in recent versions of sondemod
+                # Therefore the serial is calculated based on the APRS serial that dxlAPRS provides
+                # This provides a workaround for the bug in recent versions of sondemod
+                # A special thank you goes to Vigor G. from France, who helped implementing this workaround
                 if reformatted_telemetry['type'] == 'M10':
-                    reformatted_telemetry['serial'] = serial[0:3] + '-' + serial[3] + '-' + serial[4:]
+                    rs_serial = 0
+                    for i in range(4):
+                        rs_serial += int(serial[5 + i], 16) * 16 ** (3 - i)
+                    reformatted_telemetry['serial'] = serial[2] + '{:02d}'.format(int(serial[3], 16)) + '-' + serial[4] + '-' + '{:1d}'.format(rs_serial >> 13) + '{:04d}'.format(rs_serial & 0x1FFF)
                 # For M20 radiosondes, the serial might have some sort of number in square brackets attached
                 # This needs to me removed
                 elif reformatted_telemetry['type'] == 'M20':

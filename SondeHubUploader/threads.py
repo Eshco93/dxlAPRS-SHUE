@@ -92,8 +92,9 @@ def process_input_queue(self):
                     self.writeData.write_reformatted_telemetry(self, reformatted_telemetry)
                 # Go through all possible radiosonde types
                 for name in self.shuConfig.radiosonde:
-                    # The radiosonde type is compared
-                    if unified_telemetry['type'].startswith(name):
+                    # The radiosonde type/subtype is compared in order to find a match
+                    if unified_telemetry['type'] == name or\
+                            (self.shuConfig.radiosonde[name]['subtype'] is not None and unified_telemetry['type'] in self.shuConfig.radiosonde[name]['subtype']):
                         # Check whether uploading for this radiosonde is enabled
                         if self.shuConfig.radiosonde[name]['enabled']:
                             self.loggerObj.debug('Uploading for radiosonde type %s is enabled', name)

@@ -30,7 +30,7 @@ sondehub_station_url = 'https://api.v2.sondehub.org/listeners'
 
 # Software definitions
 software_name = 'dxlAPRS-SHUE'
-software_version = '1.1.1'
+software_version = '1.1.2'
 
 # Status code definitions
 status_code_ok = 200
@@ -369,7 +369,7 @@ telemetry = {
         'json_conversion_function': lambda a, b: handleData.unify_json_type(a, b),
         'aprs_source':              'type',
         'aprs_conversion_function': lambda a: a,
-        'plausibility_function':    lambda a: True if a.startswith(tuple(radiosonde.keys())) else False,
+        'plausibility_function':    lambda a: telemetryChecks.check_type_plausibility(a, radiosonde),
         'name':                     'Type',
         'unit':                     None,
         'mandatory':                True,
@@ -385,7 +385,7 @@ telemetry = {
         'plausibility_function':    lambda a: True if len(a) >= 4 else False,
         'name':                     'Serial',
         'unit':                     None,
-        'mandatory':                ['RS41', 'RS92', 'DFM'],
+        'mandatory':                ['RS41', 'RS92', 'DFM', 'M10'],
         'optional':                 False,
         'reformat_function':        None
     },
@@ -398,7 +398,7 @@ telemetry = {
         'plausibility_function':    lambda a: True if len(a) >= 4 else False,
         'name':                     'Serial2',
         'unit':                     None,
-        'mandatory':                ['M10', 'M20', 'MRZ', 'MEISEI'],
+        'mandatory':                ['M20', 'MRZ', 'MEISEI'],
         'optional':                 False,
         'reformat_function':        None
     },
@@ -966,7 +966,7 @@ radiosonde = {
     {
         'manufacturer':                 'Graw',
         'type':                         'DFM',
-        'subtype':                      ['DFM06', 'DFM09', 'DFM09P', 'DFM17'],
+        'subtype':                      ['DFM06', 'DFM09', 'DFM09P', 'DFM17', 'PS-15'],
         'serial':                       ['serial', 1],
         'framenumber':                  'gps',
         'altitude_precision':           2,
@@ -993,7 +993,7 @@ radiosonde = {
         'manufacturer':                 'Meteomodem',
         'type':                         'M10',
         'subtype':                      None,
-        'serial':                       ['serial_2', 0],
+        'serial':                       ['serial', 0],
         'framenumber':                  'gps',
         'altitude_precision':           2,
         'radiosonde_time_reference':    'GPS',

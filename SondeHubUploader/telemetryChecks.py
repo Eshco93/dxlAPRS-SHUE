@@ -43,6 +43,16 @@ def check_callsign_plausibility(callsign):
     return False
 
 
+# Check whether the type is plausible
+def check_type_plausibility(_type, radiosonde):
+    # Go through all possible radiosondes in order to check the type plausibility
+    for name in radiosonde:
+        # The provided type must either match a radiosonde name or subtype
+        if _type == name or (radiosonde[name]['subtype'] is not None and _type in radiosonde[name]['subtype']):
+            return True
+    return False
+
+
 # Check whether a date is plausible
 def check_date_plausibility(date, difference_days):
     # The date must be within a certain range around the current UTC date in order to be deemed plausible
@@ -115,13 +125,15 @@ def check_mandatory(self, unified_telemetry):
                 self.loggerObj.debug_detail(f'Mandatory parameter "{parameter}" exists')
             else:
                 result = False
-                self.loggerObj.debug_detail(f'Mandatory parameter "{parameter}" is missing')
+                self.loggerObj.error(f'Mandatory parameter "{parameter}" is missing')
     # The radiosonde type needs to be determined in order to check the mandatory unified telemetry parameters for specific radiosondes
     _type = None
-    # Go through all possible radiosonde types and compare the type
-    for key in self.shuConfig.radiosonde.keys():
-        if 'type' in unified_telemetry and unified_telemetry['type'].startswith(key):
-            _type = key
+    # Go through all possible radiosondes in order to determine the type
+    for name in self.shuConfig.radiosonde:
+        # The radiosonde type/subtype is compared in order to find a match
+        if ('type' in unified_telemetry and unified_telemetry['type'] == name) or\
+                (self.shuConfig.radiosonde[name]['subtype'] is not None and 'type' in unified_telemetry and unified_telemetry['type'] in self.shuConfig.radiosonde[name]['subtype']):
+            _type = name
     if _type is not None:
         # Go through all possible unified telemetry parameters (again)
         for parameter in self.shuConfig.telemetry:
