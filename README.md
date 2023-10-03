@@ -102,7 +102,7 @@ Argument|Description|Default|Range
 `-p`|Port for the UDP socket<br />(See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod))|`18001`|`1024` - `65353`
 `-y`|Mode of the program (`0` = auto-select / `1` = JSON / `2` = APRS)<br />(See section [5.](https://github.com/Eshco93/dxlAPRS-SHUE#5-changing-parameters-for-sondemod))|`0`|`0` - `2`
 `-d`|Path for the files written by the program|`/dxlAPRS-SHUE/log`|-
-`-s`|Write the raw APRS packages to a textfile (`0` = no / `1` = yes)<br />All packages in one file with one line for each package|`0`|`0` - `1`
+`-s`|Write the raw APRS/UDP JSON packages to a textfile (`0` = no / `1` = yes)<br />All packages in one file with one line for each package|`0`|`0` - `1`
 `-w`|Write the telemetry data to CSV files (`0` = no / `1` = yes)<br />One CSV file for each radiosonde<br />Named by it's serial with with `t_` as a prefix|`0`|`0` - `1`
 `-z`|Write the reformatted telemetry data to CSV files (`0` = no / `1` = yes)<br />One CSV file for each radiosonde<br />Named by it's serial with `r_` as a prefix|`0`|`0` - `1`
 `-k`|Write the log to a log file (`0` = no / `1` = yes)|`1`|`0` - `1`
