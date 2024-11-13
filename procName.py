@@ -1,6 +1,6 @@
 # procName.py - Functions for setting/getting the process name
 #
-# Copyright (C) Simon Schäfer <simon.gsa@web.de>
+# Copyright (C) Simon Schäfer
 #
 # Released under GNU GPL v3 or later
 
